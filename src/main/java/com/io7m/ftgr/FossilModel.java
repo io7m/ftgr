@@ -155,7 +155,7 @@ public final class FossilModel implements FossilModelType
       }
 
       if (roots.size() != 1) {
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder(64);
         sb.append("Graph has multiple root nodes.\n");
         for (final FossilModelCommitNode r : roots) {
           sb.append("  Node: ");
