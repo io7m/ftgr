@@ -39,7 +39,8 @@ public final class GitRepositorySpecification
     this.name_map = NullCheck.notNull(in_name_map);
   }
 
-  public static GitRepositorySpecificationBuilderType newBuilder(final File directory)
+  public static GitRepositorySpecificationBuilderType newBuilder(final File
+    directory)
   {
     return new Builder(directory);
   }

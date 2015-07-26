@@ -35,7 +35,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 
-public final class FossilManifest
+final class FossilManifest
 {
   private static final Logger LOG;
 

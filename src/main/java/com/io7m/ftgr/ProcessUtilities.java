@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public final class ProcessUtilities
+final class ProcessUtilities
 {
   private ProcessUtilities()
   {

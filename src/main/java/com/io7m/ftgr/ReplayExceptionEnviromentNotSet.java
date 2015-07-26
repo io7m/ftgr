@@ -15,7 +15,7 @@
  */
 package com.io7m.ftgr;
 
-public class ReplayExceptionEnviromentNotSet extends ReplayException
+class ReplayExceptionEnviromentNotSet extends ReplayException
 {
   public ReplayExceptionEnviromentNotSet(final String env)
   {

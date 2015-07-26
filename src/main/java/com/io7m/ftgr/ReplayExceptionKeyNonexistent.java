@@ -16,10 +16,10 @@
 
 package com.io7m.ftgr;
 
-public class ReplayExceptionKeyNonexistent extends ReplayException
+class ReplayExceptionKeyNonexistent extends ReplayException
 {
   public ReplayExceptionKeyNonexistent(final long key_id)
   {
-    super(String.format("No such key with id: 0x%016x", key_id));
+    super(String.format("No such key with id: 0x%016x", Long.valueOf(key_id)));
   }
 }

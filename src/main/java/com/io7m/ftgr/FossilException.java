@@ -15,21 +15,21 @@
  */
 package com.io7m.ftgr;
 
-public class FossilException extends Exception
+class FossilException extends Exception
 {
-  public FossilException(
+  FossilException(
     final Throwable cause)
   {
     super(cause);
   }
 
-  public FossilException(
+  FossilException(
     final String message)
   {
     super(message);
   }
 
-  public FossilException(
+  FossilException(
     final String message,
     final Throwable cause)
   {

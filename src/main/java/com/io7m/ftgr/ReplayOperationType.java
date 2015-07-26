@@ -16,7 +16,7 @@
 
 package com.io7m.ftgr;
 
-public interface ReplayOperationType
+interface ReplayOperationType
 {
   <A, E extends Exception> A matchOperation(
     final ReplayOperationMatcherType<A, E> m)

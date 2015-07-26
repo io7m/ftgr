@@ -32,8 +32,7 @@ public final class FossilRepositorySpecification
   }
 
   public static FossilRepositorySpecificationBuilderType newBuilder(
-    final File
-    directory)
+    final File directory)
   {
     return new Builder(directory);
   }

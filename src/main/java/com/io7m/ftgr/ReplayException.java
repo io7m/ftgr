@@ -16,14 +16,14 @@
 
 package com.io7m.ftgr;
 
-public class ReplayException extends Exception
+class ReplayException extends Exception
 {
   public ReplayException(final Throwable cause)
   {
     super(cause);
   }
 
-  public ReplayException(final String message)
+  ReplayException(final String message)
   {
     super(message);
   }

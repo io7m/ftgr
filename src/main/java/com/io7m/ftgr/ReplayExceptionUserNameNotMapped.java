@@ -15,7 +15,7 @@
  */
 package com.io7m.ftgr;
 
-public class ReplayExceptionUserNameNotMapped extends ReplayException
+class ReplayExceptionUserNameNotMapped extends ReplayException
 {
   public ReplayExceptionUserNameNotMapped(final String name)
   {

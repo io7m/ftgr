@@ -100,8 +100,6 @@ public final class FossilDatabase implements FossilDatabaseType
     }
   }
 
-
-
   private class Transaction implements FossilDatabaseTransactionType
   {
     private final Connection conn;

@@ -17,14 +17,13 @@ package com.io7m.ftgr;
 
 import com.io7m.jfunctional.OptionType;
 
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
 public interface FossilDatabaseTransactionType extends AutoCloseable
 {
-  void close()
+  @Override void close()
     throws FossilDatabaseException;
 
   Map<Integer, FossilCommit> getAllCommits()

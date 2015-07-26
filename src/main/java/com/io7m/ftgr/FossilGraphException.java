@@ -16,7 +16,7 @@
 
 package com.io7m.ftgr;
 
-public class FossilGraphException extends FossilException
+class FossilGraphException extends FossilException
 {
   public FossilGraphException(
     final Throwable cause)

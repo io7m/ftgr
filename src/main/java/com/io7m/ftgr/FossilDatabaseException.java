@@ -15,7 +15,7 @@
  */
 package com.io7m.ftgr;
 
-public class FossilDatabaseException extends FossilException
+class FossilDatabaseException extends FossilException
 {
   public FossilDatabaseException(
     final Throwable cause)

@@ -157,7 +157,7 @@ public final class GitExecutable implements GitExecutableType
     NullCheck.notNull(comment);
     NullCheck.notNull(branch);
 
-    this.commit(repos, time, user, comment, Option.some(key_id));
+    this.commit(repos, time, user, comment, Option.some(Long.valueOf(key_id)));
   }
 
   @Override public void createRootCommit(
