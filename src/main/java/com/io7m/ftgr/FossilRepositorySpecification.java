@@ -31,7 +31,8 @@ public final class FossilRepositorySpecification
     this.file = NullCheck.notNull(in_file);
   }
 
-  public static FossilRepositorySpecificationBuilderType newBuilder(File
+  public static FossilRepositorySpecificationBuilderType newBuilder(
+    final File
     directory)
   {
     return new Builder(directory);

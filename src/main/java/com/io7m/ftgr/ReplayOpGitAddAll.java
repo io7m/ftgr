@@ -54,8 +54,8 @@ public class ReplayOpGitAddAll implements ReplayOperationType
       "add all to index");
 
     try {
-      this.git.addAll(repos);
-    } catch (IOException e) {
+      this.git.addAll(this.repos);
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }

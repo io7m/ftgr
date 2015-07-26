@@ -58,7 +58,7 @@ public class ReplayOpGitCheckoutBranch implements ReplayOperationType
 
     try {
       this.git.checkoutBranch(this.repos, this.branch);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }

@@ -43,7 +43,7 @@ public final class ReplayOpGitMerge implements ReplayOperationType
     final FossilCommit in_commit,
     final String in_merge_to,
     final String in_merge_from,
-    long key_id)
+    final long key_id)
   {
     this.exec = NullCheck.notNull(in_exec);
     this.repos = NullCheck.notNull(in_repos);
@@ -81,7 +81,7 @@ public final class ReplayOpGitMerge implements ReplayOperationType
           this.merge_from,
           this.key);
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }

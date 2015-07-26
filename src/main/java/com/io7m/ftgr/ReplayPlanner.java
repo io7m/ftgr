@@ -121,7 +121,7 @@ public final class ReplayPlanner implements ReplayPlannerType
      */
 
     p.add(new ReplayOpGitCreateRepository(this.git, this.git_repos));
-    FossilModelCommitNode root_node = m.getRootNode();
+    final FossilModelCommitNode root_node = m.getRootNode();
     p.add(new ReplayOpGitCreateRootCommit(this.git, this.git_repos, root_node));
 
     /**

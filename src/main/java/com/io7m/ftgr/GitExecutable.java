@@ -281,7 +281,7 @@ public final class GitExecutable implements GitExecutableType
     final String comment,
     final String merge_to,
     final String merge_from,
-    long key_id)
+    final long key_id)
     throws IOException
   {
     NullCheck.notNull(repos);

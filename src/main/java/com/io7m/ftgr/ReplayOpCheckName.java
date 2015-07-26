@@ -32,8 +32,8 @@ public final class ReplayOpCheckName implements ReplayOperationType
   private final String                         name;
 
   public ReplayOpCheckName(
-    GitRepositorySpecificationType in_git,
-    String in_name)
+    final GitRepositorySpecificationType in_git,
+    final String in_name)
   {
     this.git = NullCheck.notNull(in_git);
     this.name = NullCheck.notNull(in_name);

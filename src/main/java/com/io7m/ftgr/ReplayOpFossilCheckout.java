@@ -60,13 +60,13 @@ public final class ReplayOpFossilCheckout implements ReplayOperationType
   {
     try {
       ReplayOpFossilCheckout.LOG.info(
-        "checking out revision {} from fossil", commit.getCommitBlob());
+        "checking out revision {} from fossil", this.commit.getCommitBlob());
 
       if (dry_run == DryRun.EXECUTE) {
         this.fossil_exec.checkOut(
           this.fossil_repos, this.commit, this.git_repos.getDirectory());
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }

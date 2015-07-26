@@ -57,7 +57,7 @@ public final class ProcessUtilities
 
       try {
         p.waitFor();
-      } catch (InterruptedException e) {
+      } catch (final InterruptedException e) {
         log.error(
           "interrupted whilst waiting for process: ", e);
       }

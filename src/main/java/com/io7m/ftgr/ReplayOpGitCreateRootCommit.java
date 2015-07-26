@@ -71,7 +71,7 @@ public final class ReplayOpGitCreateRootCommit implements ReplayOperationType
           c.getCommitComment(),
           c.getBranch());
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }

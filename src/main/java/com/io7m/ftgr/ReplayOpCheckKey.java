@@ -34,8 +34,8 @@ public final class ReplayOpCheckKey implements ReplayOperationType
   private final long              key_id;
 
   public ReplayOpCheckKey(
-    GPGExecutableType in_gpg,
-    long in_key_id)
+    final GPGExecutableType in_gpg,
+    final long in_key_id)
   {
     this.gpg = NullCheck.notNull(in_gpg);
     this.key_id = in_key_id;
@@ -60,7 +60,7 @@ public final class ReplayOpCheckKey implements ReplayOperationType
           throw new ReplayExceptionKeyNonexistent(this.key_id);
         }
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }

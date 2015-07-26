@@ -59,7 +59,7 @@ public final class ReplayOpGitCreateRepository implements ReplayOperationType
       if (dry_run == DryRun.EXECUTE) {
         this.exec.createRepository(this.repos);
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }

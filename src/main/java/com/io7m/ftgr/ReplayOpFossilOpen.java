@@ -62,7 +62,7 @@ public final class ReplayOpFossilOpen implements ReplayOperationType
       if (dry_run == DryRun.EXECUTE) {
         this.fossil_exec.open(this.fossil_repos, this.git_repos.getDirectory());
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }

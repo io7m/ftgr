@@ -85,7 +85,7 @@ public final class FossilDatabase implements FossilDatabaseType
       ds.setReadOnly(true);
       ds.setUrl("jdbc:sqlite:" + file);
       return new FossilDatabase(file, ds, executable);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new FossilDatabaseException(e);
     }
   }
@@ -95,7 +95,7 @@ public final class FossilDatabase implements FossilDatabaseType
   {
     try {
       return new Transaction(this.data.getConnection());
-    } catch (SQLException e) {
+    } catch (final SQLException e) {
       throw new FossilDatabaseException(e);
     }
   }
@@ -147,7 +147,7 @@ public final class FossilDatabase implements FossilDatabaseType
             xs.put(Integer.valueOf(id), fc);
           }
         }
-      } catch (SQLException e) {
+      } catch (final SQLException e) {
         throw new FossilDatabaseException(e);
       }
 
@@ -169,7 +169,7 @@ public final class FossilDatabase implements FossilDatabaseType
             xs.add(new FossilParentLink(parent_id, child_id));
           }
         }
-      } catch (SQLException e) {
+      } catch (final SQLException e) {
         throw new FossilDatabaseException(e);
       }
 
@@ -190,7 +190,7 @@ public final class FossilDatabase implements FossilDatabaseType
         }
 
         return Option.none();
-      } catch (SQLException e) {
+      } catch (final SQLException e) {
         throw new FossilDatabaseException(e);
       }
     }

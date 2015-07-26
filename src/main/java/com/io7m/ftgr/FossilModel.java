@@ -182,7 +182,7 @@ public final class FossilModel implements FossilModelType
           this.nodes.get(Integer.valueOf(p.getChild()));
 
         this.graph.addDagEdge(child, parent);
-      } catch (DirectedAcyclicGraph.CycleFoundException e) {
+      } catch (final DirectedAcyclicGraph.CycleFoundException e) {
         throw new FossilGraphException(e);
       }
     }

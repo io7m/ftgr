@@ -72,7 +72,7 @@ public class ReplayOpGitCommit implements ReplayOperationType
         this.commit.getCommitComment(),
         this.commit.getBranch(),
         this.key);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new ReplayException(e);
     }
   }
