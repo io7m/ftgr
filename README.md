@@ -45,7 +45,7 @@ represented.
    responsible for "creating" the branch or not.
 
 1. Fetch the [manifest](http://fossil-scm.org/index.html/doc/trunk/www/fileformat.wiki#manifest)
-   for each commit, and extract the key ID of the PGP used to sign the
+   for each commit, and extract the key ID of the PGP key used to sign the
    manifest. Maintain a list of all keys used.
 
 2. Check that the running user has the private key for each of the
