@@ -91,7 +91,7 @@ public final class ReplayPlanner implements ReplayPlannerType
      */
 
     final Map<Integer, Long> signers = m.getSigners();
-    for (final Long k : new HashSet<Long>(signers.values())) {
+    for (final Long k : new HashSet<>(signers.values())) {
       p.add(new ReplayOpCheckKey(this.gpg, k));
     }
 
@@ -104,7 +104,7 @@ public final class ReplayPlanner implements ReplayPlannerType
         g = m.getGraph();
       final Iterator<FossilModelCommitNode> iter = g.iterator();
 
-      final Set<String> checked = new HashSet<String>();
+      final Set<String> checked = new HashSet<>();
       while (iter.hasNext()) {
         final FossilModelCommitNode node = iter.next();
         final FossilCommit commit = node.getCommit();
@@ -145,8 +145,7 @@ public final class ReplayPlanner implements ReplayPlannerType
        * The commits are sorted topologically, order them by date.
        */
 
-      final List<FossilModelCommitNode> dated =
-        new ArrayList<FossilModelCommitNode>();
+      final List<FossilModelCommitNode> dated = new ArrayList<>();
       while (iter.hasNext()) {
         dated.add(iter.next());
       }

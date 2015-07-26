@@ -117,9 +117,8 @@ public final class FossilModel implements FossilModelType
       this.nodes = new HashMap<>();
       this.branches = new HashSet<>();
       this.signers = new HashMap<>();
-      this.graph =
-        new DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink>(
-          this.edges);
+      this.graph = new DirectedAcyclicGraph<>(
+        this.edges);
     }
 
     @Override public void addCommit(final FossilCommit c)
@@ -142,8 +141,7 @@ public final class FossilModel implements FossilModelType
     @Override public FossilModelType build()
       throws FossilGraphException
     {
-      final Set<FossilModelCommitNode> roots =
-        new HashSet<FossilModelCommitNode>();
+      final Set<FossilModelCommitNode> roots = new HashSet<>();
 
       final Iterator<FossilModelCommitNode> iter = NullCheck.notNull(
         this.graph.iterator());

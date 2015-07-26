@@ -65,7 +65,7 @@ public final class GitExecutable implements GitExecutableType
     NullCheck.notNull(repos);
 
     final File workdir = repos.getDirectory().getCanonicalFile();
-    final List<String> args = new ArrayList<String>(2);
+    final List<String> args = new ArrayList<>(2);
     args.add(this.exec.toString());
     args.add("init");
     GitExecutable.LOG.debug("execute {} in {}", args, workdir);
@@ -91,7 +91,7 @@ public final class GitExecutable implements GitExecutableType
     NullCheck.notNull(branch);
 
     final File workdir = repos.getDirectory().getCanonicalFile();
-    final List<String> args = new ArrayList<String>(4);
+    final List<String> args = new ArrayList<>(4);
     args.add(this.exec.toString());
     args.add("checkout");
     args.add("-b");
@@ -124,7 +124,7 @@ public final class GitExecutable implements GitExecutableType
      * Switch to the correct branch.
      */
 
-    final List<String> args = new ArrayList<String>(3);
+    final List<String> args = new ArrayList<>(3);
     args.add(this.exec.toString());
     args.add("checkout");
     args.add(branch);
@@ -181,7 +181,7 @@ public final class GitExecutable implements GitExecutableType
      */
 
     {
-      final List<String> args = new ArrayList<String>(4);
+      final List<String> args = new ArrayList<>(4);
       args.add(this.exec.toString());
       args.add("checkout");
       args.add("-b");
@@ -221,7 +221,7 @@ public final class GitExecutable implements GitExecutableType
      */
 
     {
-      final List<String> args = new ArrayList<String>(4);
+      final List<String> args = new ArrayList<>(4);
       args.add(this.exec.toString());
       args.add("add");
       args.add("-v");
@@ -255,7 +255,7 @@ public final class GitExecutable implements GitExecutableType
 
     final File workdir = repos.getDirectory().getCanonicalFile();
 
-    final List<String> args = new ArrayList<String>(4);
+    final List<String> args = new ArrayList<>(4);
     args.add(this.exec.toString());
     args.add("add");
     args.add("-v");
@@ -296,7 +296,7 @@ public final class GitExecutable implements GitExecutableType
      */
 
     {
-      final List<String> args = new ArrayList<String>(4);
+      final List<String> args = new ArrayList<>(4);
       args.add(this.exec.toString());
       args.add("checkout");
       args.add(merge_to);
@@ -319,7 +319,7 @@ public final class GitExecutable implements GitExecutableType
      */
 
     {
-      final List<String> args = new ArrayList<String>(8);
+      final List<String> args = new ArrayList<>(8);
       args.add(this.faketime_exec.toString());
       args.add(time.toString());
       args.add(this.exec.toString());
@@ -359,7 +359,7 @@ public final class GitExecutable implements GitExecutableType
   {
     final File workdir = repos.getDirectory().getCanonicalFile();
 
-    final List<String> args = new ArrayList<String>(10);
+    final List<String> args = new ArrayList<>(10);
     args.add(this.faketime_exec.toString());
     args.add(time.toString());
     args.add(this.exec.toString());
