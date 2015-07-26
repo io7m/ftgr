@@ -76,7 +76,7 @@ tends towards full names and email addresses in each message. In
 order to produce the latter from the former, the configuration file
 requires the definition of name mappings. For a given username `u`,
 the key `com.io7m.ftgr.name_map.u` defines a name and email address
-separated by the pipe symbol `|` `(U007C)`. It is an error to fail
+separated by the pipe symbol `|` `(U+007C)`. It is an error to fail
 to provide a mapping for a `Fossil` username: The program will
 fail loudly before attempting to write any data if one or more are
 missing.
