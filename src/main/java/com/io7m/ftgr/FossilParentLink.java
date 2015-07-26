@@ -15,7 +15,7 @@
  */
 package com.io7m.ftgr;
 
-class FossilParentLink
+final class FossilParentLink
 {
   private final int parent;
   private final int child;

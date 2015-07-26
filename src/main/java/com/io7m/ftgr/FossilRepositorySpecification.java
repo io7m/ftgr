@@ -42,7 +42,7 @@ public final class FossilRepositorySpecification
     return this.file;
   }
 
-  private static class Builder
+  private static final class Builder
     implements FossilRepositorySpecificationBuilderType
   {
     private final File file;

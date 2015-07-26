@@ -65,10 +65,9 @@ public final class GPGExecutable implements GPGExecutableType
     pb.redirectInput(ProcessBuilder.Redirect.from(new File("/dev/null")));
 
     final Process p = pb.start();
-
     final List<String> out_lines = new ArrayList<>();
     ProcessUtilities.executeLogged(
-      GPGExecutable.LOG, pb.start(), out_lines);
+      GPGExecutable.LOG, p, out_lines);
     return true;
   }
 }

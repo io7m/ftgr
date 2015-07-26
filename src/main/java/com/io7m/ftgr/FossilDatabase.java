@@ -50,14 +50,10 @@ public final class FossilDatabase implements FossilDatabaseType
   private final String           query_blob_for_uuid;
 
   private FossilDatabase(
-    final File in_file,
-    final SQLiteDataSource in_ds,
-    final File in_exec)
+    final SQLiteDataSource in_ds)
     throws IOException
   {
-    final File file = NullCheck.notNull(in_file);
     this.data = NullCheck.notNull(in_ds);
-    final File exec = NullCheck.notNull(in_exec);
 
     final Properties queries = new Properties();
     queries.loadFromXML(
@@ -84,7 +80,7 @@ public final class FossilDatabase implements FossilDatabaseType
       final SQLiteDataSource ds = new SQLiteDataSource();
       ds.setReadOnly(true);
       ds.setUrl("jdbc:sqlite:" + file);
-      return new FossilDatabase(file, ds, executable);
+      return new FossilDatabase(ds);
     } catch (final IOException e) {
       throw new FossilDatabaseException(e);
     }
@@ -100,7 +96,7 @@ public final class FossilDatabase implements FossilDatabaseType
     }
   }
 
-  private class Transaction implements FossilDatabaseTransactionType
+  private final class Transaction implements FossilDatabaseTransactionType
   {
     private final Connection conn;
 

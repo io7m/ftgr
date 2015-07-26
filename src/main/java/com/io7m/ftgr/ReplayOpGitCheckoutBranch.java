@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class ReplayOpGitCheckoutBranch implements ReplayOperationType
+public final class ReplayOpGitCheckoutBranch implements ReplayOperationType
 {
   private static final Logger LOG;
 

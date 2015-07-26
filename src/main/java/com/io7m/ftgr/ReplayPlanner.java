@@ -189,7 +189,6 @@ public final class ReplayPlanner implements ReplayPlannerType
 
     final FossilCommit commit = node.getCommit();
     final Set<FossilModelCommitLink> parents = g.incomingEdgesOf(node);
-    final Set<FossilModelCommitLink> children = g.outgoingEdgesOf(node);
 
     /**
      * Fossil creates otherwise empty commits that are responsible

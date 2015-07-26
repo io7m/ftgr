@@ -70,7 +70,8 @@ public final class GitRepositorySpecification
     throw new NoSuchElementException(u);
   }
 
-  private static class Builder implements GitRepositorySpecificationBuilderType
+  private static final class Builder
+    implements GitRepositorySpecificationBuilderType
   {
     private final File                  directory;
     private final Map<String, GitIdent> name_map;
