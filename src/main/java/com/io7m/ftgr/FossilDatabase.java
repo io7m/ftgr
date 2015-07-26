@@ -76,7 +76,15 @@ public final class FossilDatabase implements FossilDatabaseType
     NullCheck.notNull(file);
     NullCheck.notNull(executable);
 
+    FossilDatabase.LOG.debug("opening {}", file);
+
     try {
+      if (file.isFile() == false) {
+        throw new FossilDatabaseException(
+          String.format(
+            "%s is not a regular file", file));
+      }
+
       final SQLiteDataSource ds = new SQLiteDataSource();
       ds.setReadOnly(true);
       ds.setUrl("jdbc:sqlite:" + file);

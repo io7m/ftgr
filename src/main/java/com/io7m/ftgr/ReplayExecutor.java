@@ -47,7 +47,9 @@ public final class ReplayExecutor implements ReplayExecutorType
     NullCheck.notNull(plan);
 
     ReplayExecutor.LOG.debug(
-      "executing plan of {} operations", Integer.valueOf(plan.size()));
+      "executing plan of {} operations ({})",
+      Integer.valueOf(plan.size()),
+      dry_run);
 
     for (int index = 0; index < plan.size(); ++index) {
       final ReplayOperationType op = NullCheck.notNull(plan.get(index));

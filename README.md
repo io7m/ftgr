@@ -25,6 +25,62 @@ those signatures will also match).
 $ mvn clean package
 ```
 
+## Running
+
+Compilation produces a jar file containing all of the dependencies.
+
+```
+$ java -jar target/io7m-ftgr-*-main.jar
+usage: ftgr.conf [logback.xml]
+```
+
+The program accepts a configuration file and an optional
+[Logback](http://logback.qos.ch) configuration file to control
+logging. The default is log everything.
+
+The `ftgr` configuration file is in [Java Properties](https://en.wikipedia.org/wiki/.properties)
+format:
+
+```
+# Absolute path to fossil executable
+com.io7m.ftgr.fossil_executable   = /usr/bin/fossil
+
+# Absolute path to git executable
+com.io7m.ftgr.git_executable      = /usr/bin/git
+
+# Absolute path to GPG executable
+com.io7m.ftgr.gpg_executable      = /usr/bin/gpg
+
+# Absolute path to faketime executable
+com.io7m.ftgr.faketime_executable = /usr/bin/faketime
+
+# True if no changes should be written to disk
+com.io7m.ftgr.dry_run             = false
+
+# Absolute path to the Git repository that will be created
+com.io7m.ftgr.git_repository    = /tmp/output
+
+# Absolute path to the input Fossil repository
+com.io7m.ftgr.fossil_repository = /tmp/input.fossil
+
+# See "Name mappings" below.
+com.io7m.ftgr.name_map.someone      = Some One|someone@example.org
+com.io7m.ftgr.name_map.someone_else = Some One|someone@example.org
+
+```
+
+### Name mappings
+
+`Fossil` uses short usernames to mark each commit. `Git`, however,
+tends towards full names and email addresses in each message. In
+order to produce the latter from the former, the configuration file
+requires the definition of name mappings. For a given username `u`,
+the key `com.io7m.ftgr.name_map.u` defines a name and email address
+separated by the pipe symbol `|` `(U007C)`. It is an error to fail
+to provide a mapping for a `Fossil` username: The program will
+fail loudly before attempting to write any data if one or more are
+missing.
+
 ## How?
 
 `Fossil` and `Git` use a similar internal model: A directed acyclic
