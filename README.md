@@ -36,7 +36,7 @@ usage: ftgr.conf [logback.xml]
 
 The program accepts a configuration file and an optional
 [Logback](http://logback.qos.ch) configuration file to control
-logging. The default is log everything.
+logging. The default is to log everything.
 
 The `ftgr` configuration file is in [Java Properties](https://en.wikipedia.org/wiki/.properties)
 format:
