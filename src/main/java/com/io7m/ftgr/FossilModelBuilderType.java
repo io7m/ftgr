@@ -24,7 +24,8 @@ public interface FossilModelBuilderType
     int commit,
     long key_id);
 
-  FossilModelType build();
+  FossilModelType build()
+    throws FossilGraphException;
 
   void addParentLink(FossilParentLink p)
     throws FossilGraphException;

@@ -140,6 +140,7 @@ public final class FossilModel implements FossilModelType
     }
 
     @Override public FossilModelType build()
+      throws FossilGraphException
     {
       final Set<FossilModelCommitNode> roots =
         new HashSet<FossilModelCommitNode>();
@@ -161,6 +162,7 @@ public final class FossilModel implements FossilModelType
           sb.append(r);
           sb.append("\n");
         }
+        throw new FossilGraphException(sb.toString());
       }
 
       final FossilModelCommitNode root = roots.iterator().next();
