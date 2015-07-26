@@ -41,13 +41,6 @@ public final class ReplayOpGitCreateRepository implements ReplayOperationType
     this.repos = NullCheck.notNull(in_repos);
   }
 
-  @Override public <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E
-  {
-    return m.onGitCreateRepository(this);
-  }
-
   @Override public void execute(
     final DryRun dry_run)
     throws ReplayException

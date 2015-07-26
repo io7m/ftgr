@@ -22,6 +22,7 @@ import com.io7m.jfunctional.Some;
 import com.io7m.jnull.NullCheck;
 import com.io7m.jproperties.JProperties;
 import com.io7m.jproperties.JPropertyException;
+import com.io7m.junreachable.UnreachableCodeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,12 @@ public final class FTGRMain
     LOG = LoggerFactory.getLogger(FTGRMain.class);
   }
 
-  public static void main(String args[])
+  private FTGRMain()
+  {
+    throw new UnreachableCodeException();
+  }
+
+  public static void main(final String[] args)
     throws
     IOException,
     JPropertyException,
@@ -53,12 +59,13 @@ public final class FTGRMain
     }
 
     if (args.length > 1) {
-      LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+      final LoggerContext context =
+        (LoggerContext) LoggerFactory.getILoggerFactory();
       try {
-        JoranConfigurator configurator = new JoranConfigurator();
+        final JoranConfigurator configurator = new JoranConfigurator();
         configurator.setContext(context);
         configurator.doConfigure(args[1]);
-      } catch (Exception ex) {
+      } catch (final Exception ex) {
         System.err.println("Could not load logback.xml: ");
         ex.printStackTrace();
       }
@@ -105,7 +112,7 @@ public final class FTGRMain
       commits = t.getAllCommits();
 
       for (final Integer k : commits.keySet()) {
-        FossilCommit c = NullCheck.notNull(commits.get(k));
+        final FossilCommit c = NullCheck.notNull(commits.get(k));
         model_builder.addCommit(c);
       }
 

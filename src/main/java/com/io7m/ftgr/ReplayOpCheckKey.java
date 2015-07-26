@@ -41,13 +41,6 @@ public final class ReplayOpCheckKey implements ReplayOperationType
     this.key_id = in_key_id;
   }
 
-  @Override public <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E
-  {
-    return m.onCheckKey(this);
-  }
-
   @Override public void execute(final DryRun dry_run)
     throws ReplayException
   {

@@ -44,13 +44,6 @@ public final class ReplayOpGitCreateBranch implements ReplayOperationType
     this.branch = NullCheck.notNull(in_branch);
   }
 
-  @Override public <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E
-  {
-    return m.onGitCreateBranch(this);
-  }
-
   @Override public void execute(
     final DryRun dry_run)
     throws ReplayException

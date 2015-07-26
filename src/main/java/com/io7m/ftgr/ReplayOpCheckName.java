@@ -39,13 +39,6 @@ public final class ReplayOpCheckName implements ReplayOperationType
     this.name = NullCheck.notNull(in_name);
   }
 
-  @Override public <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E
-  {
-    return m.onCheckName(this);
-  }
-
   @Override public void execute(final DryRun dry_run)
     throws ReplayException
   {

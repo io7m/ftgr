@@ -18,9 +18,6 @@ package com.io7m.ftgr;
 
 interface ReplayOperationType
 {
-  <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E;
 
   void execute(DryRun dry_run)
     throws ReplayException;

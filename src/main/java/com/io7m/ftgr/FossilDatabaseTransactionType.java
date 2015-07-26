@@ -15,9 +15,6 @@
  */
 package com.io7m.ftgr;
 
-import com.io7m.jfunctional.OptionType;
-
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +29,4 @@ public interface FossilDatabaseTransactionType extends AutoCloseable
   List<FossilParentLink> getParentLinks()
     throws FossilDatabaseException;
 
-  OptionType<ByteBuffer> getBlobForUUID(String uuid)
-    throws FossilDatabaseException;
 }

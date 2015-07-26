@@ -44,13 +44,6 @@ public final class ReplayOpFossilOpen implements ReplayOperationType
     this.git_repos = NullCheck.notNull(in_git_repos);
   }
 
-  @Override public <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E
-  {
-    return m.onFossilOpen(this);
-  }
-
   @Override public void execute(
     final DryRun dry_run)
     throws ReplayException

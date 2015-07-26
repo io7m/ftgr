@@ -70,13 +70,13 @@ final class FTGRConfiguration
     final File faketime_exec =
       new File(JProperties.getString(p, "com.io7m.ftgr.faketime_executable"));
 
-    Map<String, GitIdent> name_map = new HashMap<>();
+    final Map<String, GitIdent> name_map = new HashMap<>();
     for (final Object k : p.keySet()) {
       final String ks = NullCheck.notNull((String) k);
       if (ks.startsWith("com.io7m.ftgr.name_map.")) {
         final String name = NullCheck.notNull(
           ks.replace("com.io7m.ftgr.name_map.", ""));
-        final String v = NullCheck.notNull((String) p.get(k));
+        final String v = NullCheck.notNull(p.getProperty(ks));
         final String[] parts = v.split("\\|");
         if (parts.length != 2) {
           throw new JPropertyException(
@@ -95,7 +95,7 @@ final class FTGRConfiguration
     final File repos_fossil =
       new File(JProperties.getString(p, "com.io7m.ftgr.fossil_repository"));
 
-    DryRun dry_run;
+    final DryRun dry_run;
     if (JProperties.getBoolean(p, "com.io7m.ftgr.dry_run")) {
       dry_run = DryRun.EXECUTE_DRY_RUN;
     } else {

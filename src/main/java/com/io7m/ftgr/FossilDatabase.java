@@ -15,8 +15,6 @@
  */
 package com.io7m.ftgr;
 
-import com.io7m.jfunctional.Option;
-import com.io7m.jfunctional.OptionType;
 import com.io7m.jnull.NullCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +22,6 @@ import org.sqlite.SQLiteDataSource;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,7 +44,6 @@ public final class FossilDatabase implements FossilDatabaseType
   private final SQLiteDataSource data;
   private final String           query_all_commits;
   private final String           query_parent_links;
-  private final String           query_blob_for_uuid;
 
   private FossilDatabase(
     final SQLiteDataSource in_ds)
@@ -64,8 +60,6 @@ public final class FossilDatabase implements FossilDatabaseType
       NullCheck.notNull(queries.getProperty("query_all_commits"));
     this.query_parent_links =
       NullCheck.notNull(queries.getProperty("query_parent_links"));
-    this.query_blob_for_uuid =
-      NullCheck.notNull(queries.getProperty("query_blob_for_uuid"));
   }
 
   public static FossilDatabaseType openDatabase(
@@ -178,23 +172,5 @@ public final class FossilDatabase implements FossilDatabaseType
       return xs;
     }
 
-    @Override public OptionType<ByteBuffer> getBlobForUUID(final String uuid)
-      throws FossilDatabaseException
-    {
-      try (final PreparedStatement st = this.conn.prepareStatement(
-        FossilDatabase.this.query_blob_for_uuid)) {
-        st.setString(1, uuid);
-
-        try (final ResultSet rs = st.executeQuery()) {
-          if (rs.next()) {
-            return Option.some(ByteBuffer.wrap(rs.getBytes("blob_content")));
-          }
-        }
-
-        return Option.none();
-      } catch (final SQLException e) {
-        throw new FossilDatabaseException(e);
-      }
-    }
   }
 }

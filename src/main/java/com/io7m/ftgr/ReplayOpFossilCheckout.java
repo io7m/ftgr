@@ -47,13 +47,6 @@ public final class ReplayOpFossilCheckout implements ReplayOperationType
     this.commit = NullCheck.notNull(in_commit);
   }
 
-  @Override public <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E
-  {
-    return m.onFossilCheckout(this);
-  }
-
   @Override public void execute(
     final DryRun dry_run)
     throws ReplayException

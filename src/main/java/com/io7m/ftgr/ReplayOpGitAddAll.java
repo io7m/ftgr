@@ -40,13 +40,6 @@ public final class ReplayOpGitAddAll implements ReplayOperationType
     this.repos = NullCheck.notNull(in_repos);
   }
 
-  @Override public <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E
-  {
-    return m.onGitAddAll(this);
-  }
-
   @Override public void execute(final DryRun dry_run)
     throws ReplayException
   {

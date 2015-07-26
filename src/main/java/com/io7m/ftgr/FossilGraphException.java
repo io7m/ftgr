@@ -30,10 +30,4 @@ class FossilGraphException extends FossilException
     super(message);
   }
 
-  public FossilGraphException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
 }

@@ -29,10 +29,4 @@ class FossilDatabaseException extends FossilException
     super(message);
   }
 
-  public FossilDatabaseException(
-    final String message,
-    final Throwable cause)
-  {
-    super(message, cause);
-  }
 }

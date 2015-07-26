@@ -53,13 +53,6 @@ public final class ReplayOpGitMerge implements ReplayOperationType
     this.key = key_id;
   }
 
-  @Override public <A, E extends Exception> A matchOperation(
-    final ReplayOperationMatcherType<A, E> m)
-    throws E
-  {
-    return m.onGitMerge(this);
-  }
-
   @Override public void execute(
     final DryRun dry_run)
     throws ReplayException

@@ -2,28 +2,25 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
   <entry key="query_all_commits">
-SELECT
-  b.uuid                  AS commit_blob,
-  datetime(e.mtime)       AS commit_mtime,
-  e.comment               AS commit_comment,
-  e.objid                 AS commit_id,
-  e.user                  AS commit_user,
-  tx.value                AS branch,
-  (tx.srcid == tx.origid) AS branch_is_new
-FROM event   AS e
-  JOIN blob    AS b  ON e.objid = b.rid
-  JOIN tagxref AS tx ON tx.rid = e.objid
-  JOIN tag     AS t  ON tx.tagid = t.tagid
+    SELECT
+    b.uuid AS commit_blob,
+    datetime(e.mtime) AS commit_mtime,
+    e.comment AS commit_comment,
+    e.objid AS commit_id,
+    e.user AS commit_user,
+    tx.value AS branch,
+    (tx.srcid == tx.origid) AS branch_is_new
+    FROM event AS e
+    JOIN blob AS b ON e.objid = b.rid
+    JOIN tagxref AS tx ON tx.rid = e.objid
+    JOIN tag AS t ON tx.tagid = t.tagid
     WHERE t.tagname = 'branch'
-      ORDER BY e.mtime;
+    ORDER BY e.mtime;
   </entry>
   <entry key="query_parent_links">
     SELECT
-      plink.pid AS parent_id,
-      plink.cid AS child_id
+    plink.pid AS parent_id,
+    plink.cid AS child_id
     FROM plink;
-  </entry>
-  <entry key="query_blob_for_uuid">
-    SELECT blob.content AS blob_content FROM blob WHERE blob.uuid = ?;
   </entry>
 </properties>
