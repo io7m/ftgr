@@ -74,9 +74,9 @@ represented.
     the two parents are on the other branch.
   + Otherwise, checkout commit `c` from `Fossil`, replacing all files
     in the current directory (and removing all files that are not part
-    of the commit). Add them all to the `Git` index and commit using
-    the original message, time, and signing the result with the
-    original PGP key.
+    of the commit). Switch `Git` to the relevant branch. Add all files
+    to the `Git` index and commit using the original message, time,
+    and signing the result with the original PGP key.
 
 Internally, `faketime` is used to execute both `git` and `gpg`. This
 allows for new commits to have the exact times as specified in the
