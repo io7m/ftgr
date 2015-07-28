@@ -16,6 +16,7 @@
 package com.io7m.ftgr;
 
 import com.io7m.jnull.NullCheck;
+import org.apache.commons.collections4.BidiMap;
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +70,8 @@ public final class ReplayPlanner implements ReplayPlannerType
   }
 
   @Override public List<ReplayOperationType> plan(
-    final FossilModelType m)
+    final FossilModelType m,
+    final BidiMap<String, FossilCommit> commit_log)
     throws ReplayException
   {
     ReplayPlanner.LOG.debug("planning replay for model");
@@ -165,7 +167,7 @@ public final class ReplayPlanner implements ReplayPlannerType
 
       for (int index = 0; index < dated.size(); ++index) {
         final FossilModelCommitNode node = NullCheck.notNull(dated.get(index));
-        this.processCommit(p, signers, root_node, g, node);
+        this.processCommit(p, signers, root_node, g, node, commit_log);
       }
     }
 
@@ -177,7 +179,8 @@ public final class ReplayPlanner implements ReplayPlannerType
     final Map<Integer, Long> signers,
     final FossilModelCommitNode root_node,
     final DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink> g,
-    final FossilModelCommitNode node)
+    final FossilModelCommitNode node,
+    final BidiMap<String, FossilCommit> commit_log)
   {
     /**
      * If this node is the root node, ignore it.
@@ -253,6 +256,8 @@ public final class ReplayPlanner implements ReplayPlannerType
       new ReplayOpFossilCheckout(
         this.fossil, this.fossil_repos, this.git_repos, commit));
     plan.add(new ReplayOpGitAddAll(this.git, this.git_repos));
-    plan.add(new ReplayOpGitCommit(this.git, this.git_repos, commit, k));
+    plan.add(
+      new ReplayOpGitCommit(
+        this.git, this.git_repos, commit, k, commit_log));
   }
 }

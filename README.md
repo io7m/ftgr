@@ -63,6 +63,9 @@ com.io7m.ftgr.git_repository    = /tmp/output
 # Absolute path to the input Fossil repository
 com.io7m.ftgr.fossil_repository = /tmp/input.fossil
 
+# See "Commit mappings" below.
+com.io7m.ftgr.commit_map = /tmp/output-commits.txt
+
 # See "Name mappings" below.
 com.io7m.ftgr.name_map.someone      = Some One|someone@example.org
 com.io7m.ftgr.name_map.someone_else = Some One|someone@example.org
@@ -80,6 +83,22 @@ separated by the pipe symbol `|` `(U+007C)`. It is an error to fail
 to provide a mapping for a `Fossil` username: The program will
 fail loudly before attempting to write any data if one or more are
 missing.
+
+### Commit mappings
+
+In order to allow for verification of commits at a later date, `ftgr`
+saves a log of the `Git` commits made for each `Fossil` commit. The
+resulting log consists of one mapping `m` per line, where `m` has the
+form:
+
+```
+git:gc|fossil:fc
+```
+
+Where `gc` is a the SHA-1 hash of a `Git` commit, and `fc` is the
+SHA-1 hash of a `Fossil` commit. Verification of commits would
+proceed by checking out each `Git` commit in turn and verifying that
+it has the same content as the corresponding `Fossil` commit.
 
 ## How?
 

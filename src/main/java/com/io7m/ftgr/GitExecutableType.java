@@ -33,7 +33,7 @@ public interface GitExecutableType
     String branch)
     throws IOException;
 
-  void createCommit(
+  String createCommit(
     GitRepositorySpecificationType repos,
     Timestamp time,
     GitIdent user,
@@ -42,7 +42,7 @@ public interface GitExecutableType
     long key_id)
     throws IOException;
 
-  void createRootCommit(
+  String createRootCommit(
     GitRepositorySpecificationType repos,
     Timestamp time,
     GitIdent user,

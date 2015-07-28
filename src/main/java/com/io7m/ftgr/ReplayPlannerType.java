@@ -16,11 +16,14 @@
 
 package com.io7m.ftgr;
 
+import org.apache.commons.collections4.BidiMap;
+
 import java.util.List;
 
 public interface ReplayPlannerType
 {
   List<ReplayOperationType> plan(
-    FossilModelType m)
+    FossilModelType m,
+    BidiMap<String, FossilCommit> commit_log)
     throws ReplayException;
 }
