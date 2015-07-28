@@ -65,6 +65,12 @@ public final class GitExecutable implements GitExecutableType
     NullCheck.notNull(repos);
 
     final File workdir = repos.getDirectory().getCanonicalFile();
+    if (workdir.mkdirs() == false) {
+      if (workdir.isDirectory() == false) {
+        throw new IOException(String.format("Not a directory: %s", workdir));
+      }
+    }
+
     final List<String> args = new ArrayList<>(2);
     args.add(this.exec.toString());
     args.add("init");
