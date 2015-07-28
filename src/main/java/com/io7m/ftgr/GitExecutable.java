@@ -24,9 +24,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -148,7 +151,7 @@ public final class GitExecutable implements GitExecutableType
       GitExecutable.LOG, pb.start(), out_lines);
   }
 
-  @Override public void createCommit(
+  @Override public String createCommit(
     final GitRepositorySpecificationType repos,
     final Timestamp time,
     final GitIdent user,
@@ -163,10 +166,11 @@ public final class GitExecutable implements GitExecutableType
     NullCheck.notNull(comment);
     NullCheck.notNull(branch);
 
-    this.commit(repos, time, user, comment, Option.some(Long.valueOf(key_id)));
+    return this.commit(
+      repos, time, user, comment, branch, Option.some(Long.valueOf(key_id)));
   }
 
-  @Override public void createRootCommit(
+  @Override public String createRootCommit(
     final GitRepositorySpecificationType repos,
     final Timestamp time,
     final GitIdent user,
@@ -251,7 +255,7 @@ public final class GitExecutable implements GitExecutableType
      */
 
     final OptionType<Long> no_key = Option.none();
-    this.commit(repos, time, user, comment, no_key);
+    return this.commit(repos, time, user, comment, branch, no_key);
   }
 
   @Override public void addAll(final GitRepositorySpecificationType repos)
@@ -355,11 +359,12 @@ public final class GitExecutable implements GitExecutableType
     }
   }
 
-  private void commit(
+  private String commit(
     final GitRepositorySpecificationType repos,
     final Timestamp time,
     final GitIdent user,
     final String comment,
+    final String branch,
     final OptionType<Long> key)
     throws IOException
   {
@@ -410,5 +415,22 @@ public final class GitExecutable implements GitExecutableType
     final List<String> out_lines = new ArrayList<>();
     ProcessUtilities.executeLogged(
       GitExecutable.LOG, p, out_lines);
+
+    final File git = new File(workdir, ".git");
+    final File git_refs = new File(git, "refs");
+    final File git_heads = new File(git_refs, "heads");
+    final File head = new File(git_heads, branch);
+
+    GitExecutable.LOG.debug("reading {}", head);
+
+    try (final InputStream is = new FileInputStream(head)) {
+      final List<String> lines = IOUtils.readLines(is, StandardCharsets.UTF_8);
+      if (lines.isEmpty()) {
+        throw new IOException(
+          String.format(
+            "File %s turned out to be empty!", head));
+      }
+      return NullCheck.notNull(lines.get(0).trim());
+    }
   }
 }

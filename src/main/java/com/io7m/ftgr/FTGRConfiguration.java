@@ -34,6 +34,7 @@ final class FTGRConfiguration
   private final File                  git_repos;
   private final File                  fossil_repos;
   private final DryRun                dry_run;
+  private final File                  commit_mapping_file;
 
   private FTGRConfiguration(
     final File in_fossil_exec,
@@ -43,7 +44,8 @@ final class FTGRConfiguration
     final Map<String, GitIdent> in_name_map,
     final File in_git_repos,
     final File in_fossil_repos,
-    final DryRun in_dry_run)
+    final DryRun in_dry_run,
+    final File in_commit_mapping_file)
   {
     this.fossil_exec = NullCheck.notNull(in_fossil_exec);
     this.git_exec = NullCheck.notNull(in_git_exec);
@@ -53,6 +55,7 @@ final class FTGRConfiguration
     this.git_repos = NullCheck.notNull(in_git_repos);
     this.fossil_repos = NullCheck.notNull(in_fossil_repos);
     this.dry_run = NullCheck.notNull(in_dry_run);
+    this.commit_mapping_file = NullCheck.notNull(in_commit_mapping_file);
   }
 
   public static FTGRConfiguration fromProperties(
@@ -94,6 +97,8 @@ final class FTGRConfiguration
       new File(JProperties.getString(p, "com.io7m.ftgr.git_repository"));
     final File repos_fossil =
       new File(JProperties.getString(p, "com.io7m.ftgr.fossil_repository"));
+    final File commit_map =
+      new File(JProperties.getString(p, "com.io7m.ftgr.commit_map"));
 
     final DryRun dry_run;
     if (JProperties.getBoolean(p, "com.io7m.ftgr.dry_run")) {
@@ -110,7 +115,8 @@ final class FTGRConfiguration
       name_map,
       repos_git,
       repos_fossil,
-      dry_run);
+      dry_run,
+      commit_map);
   }
 
   public File getGitRepository()
@@ -151,5 +157,10 @@ final class FTGRConfiguration
   public DryRun getDryRun()
   {
     return this.dry_run;
+  }
+
+  public File getCommitMappingFile()
+  {
+    return this.commit_mapping_file;
   }
 }

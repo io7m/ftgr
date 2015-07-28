@@ -23,11 +23,16 @@ import com.io7m.jnull.NullCheck;
 import com.io7m.jproperties.JProperties;
 import com.io7m.jproperties.JPropertyException;
 import com.io7m.junreachable.UnreachableCodeException;
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
@@ -139,8 +144,38 @@ public final class FTGRMain
     final FossilModelType model = model_builder.build();
     final ReplayPlannerType planner =
       ReplayPlanner.newPlanner(gpg, fossil, git, git_repos, fossil_repos);
-    final List<ReplayOperationType> plan = planner.plan(model);
+    final BidiMap<String, FossilCommit> commit_log = new DualHashBidiMap<>();
+    final List<ReplayOperationType> plan = planner.plan(model, commit_log);
     final ReplayExecutorType exec = ReplayExecutor.newExecutor();
     exec.executePlan(plan, config.getDryRun());
+
+    switch (config.getDryRun()) {
+      case EXECUTE_DRY_RUN: {
+        break;
+      }
+      case EXECUTE: {
+        final File map = config.getCommitMappingFile();
+        FTGRMain.LOG.debug("writing commit map {}", map);
+
+        try (final FileOutputStream map_file = new FileOutputStream(map)) {
+
+          try (final PrintWriter fw = new PrintWriter(
+            new OutputStreamWriter(map_file))) {
+
+            for (final String git_commit : commit_log.keySet()) {
+              final FossilCommit fossil_commit =
+                NullCheck.notNull(commit_log.get(git_commit));
+              fw.printf(
+                "git:%s|fossil:%s\n",
+                git_commit,
+                fossil_commit.getCommitBlob());
+            }
+
+            fw.flush();
+          }
+        }
+        break;
+      }
+    }
   }
 }

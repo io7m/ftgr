@@ -16,10 +16,12 @@
 package com.io7m.ftgr;
 
 import com.io7m.jnull.NullCheck;
+import org.apache.commons.collections4.BidiMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Map;
 
 public final class ReplayOpGitCommit implements ReplayOperationType
 {
@@ -33,17 +35,20 @@ public final class ReplayOpGitCommit implements ReplayOperationType
   private final GitRepositorySpecificationType repos;
   private final FossilCommit                   commit;
   private final long                           key;
+  private final Map<String, FossilCommit>      commits;
 
   public ReplayOpGitCommit(
     final GitExecutableType in_git,
     final GitRepositorySpecificationType in_repos,
     final FossilCommit in_commit,
-    final long key_id)
+    final long key_id,
+    final BidiMap<String, FossilCommit> in_commits)
   {
     this.git = NullCheck.notNull(in_git);
     this.repos = NullCheck.notNull(in_repos);
     this.commit = NullCheck.notNull(in_commit);
     this.key = key_id;
+    this.commits = NullCheck.notNull(in_commits);
   }
 
   @Override public void execute(final DryRun dry_run)
@@ -58,13 +63,15 @@ public final class ReplayOpGitCommit implements ReplayOperationType
     try {
       final GitIdent ident = this.repos.getUserNameMapping(
         this.commit.getCommitUser());
-      this.git.createCommit(
+      final String r = this.git.createCommit(
         this.repos,
         this.commit.getCommitTime(),
         ident,
         this.commit.getCommitComment(),
         this.commit.getBranch(),
         this.key);
+
+      this.commits.put(this.commit.getCommitBlob(), commit);
     } catch (final IOException e) {
       throw new ReplayException(e);
     }
