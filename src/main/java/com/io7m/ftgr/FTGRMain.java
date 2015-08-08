@@ -29,11 +29,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 
@@ -166,26 +168,80 @@ public final class FTGRMain
       }
       case EXECUTE: {
         final File map = config.getCommitMappingFile();
-        FTGRMain.LOG.debug("writing commit map {}", map);
-
-        try (final FileOutputStream map_file = new FileOutputStream(map)) {
-
-          try (final PrintWriter fw = new PrintWriter(
-            new OutputStreamWriter(map_file))) {
-
-            for (final GitCommitName git_commit : commit_log.keySet()) {
-              final FossilCommit fossil_commit =
-                NullCheck.notNull(commit_log.get(git_commit));
-              fw.printf(
-                "git:%s|fossil:%s\n",
-                git_commit,
-                fossil_commit.getCommitBlob());
-            }
-
-            fw.flush();
-          }
+        FTGRMain.writeCommitMap(commit_log, map);
+        if (config.wantVerification()) {
+          FTGRMain.verify(config, git, fossil, fossil_repos, map);
         }
+
         break;
+      }
+    }
+  }
+
+  private static void writeCommitMap(
+    final BidiMap<GitCommitName, FossilCommit> commit_log,
+    final File map)
+    throws IOException
+  {
+    FTGRMain.LOG.debug("writing commit map {}", map);
+
+    try (final FileOutputStream map_file = new FileOutputStream(map)) {
+      try (final PrintWriter fw = new PrintWriter(
+        new OutputStreamWriter(map_file))) {
+
+        for (final GitCommitName git_commit : commit_log.keySet()) {
+          final FossilCommit fossil_commit =
+            NullCheck.notNull(commit_log.get(git_commit));
+          fw.printf(
+            "git:%s|fossil:%s\n", git_commit, fossil_commit.getCommitBlob());
+        }
+
+        fw.flush();
+      }
+    }
+  }
+
+  private static void verify(
+    final FTGRConfiguration config,
+    final GitExecutableType git,
+    final FossilExecutableType fossil,
+    final FossilRepositorySpecificationType fossil_repos,
+    final File map)
+    throws IOException
+  {
+    try (final FileInputStream s = new FileInputStream(map)) {
+
+      final BidiMap<GitCommitName, FossilCommitName> in_commits =
+        FossilCommitMap.fromStream(s);
+
+      final File in_git_tmp =
+        Files.createTempDirectory("verifier-git-tmp-").toFile();
+      FTGRMain.LOG.info("using temporary git repository: {}", in_git_tmp);
+
+      final File in_fossil_tmp =
+        Files.createTempDirectory("verifier-fossil-tmp-").toFile();
+      FTGRMain.LOG.info(
+        "using temporary fossil repository: {}", in_fossil_tmp);
+
+      final VerifierType v = Verifier.newVerifier(
+        in_commits,
+        config.getGitRepository(),
+        fossil_repos,
+        git,
+        fossil,
+        in_git_tmp,
+        in_fossil_tmp);
+
+      boolean ok = true;
+      final List<VerifierResult> results = v.verify();
+      for (int index = 0; index < results.size(); ++index) {
+        final VerifierResult r = results.get(index);
+        ok = r.isOk() && ok;
+        FTGRMain.LOG.info(
+          "commit git:{}: (ok: {}) {}",
+          r.getGitCommit(),
+          Boolean.toString(r.isOk()),
+          r.getMessage());
       }
     }
   }

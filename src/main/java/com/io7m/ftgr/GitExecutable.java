@@ -61,6 +61,33 @@ public final class GitExecutable implements GitExecutableType
     return new GitExecutable(exec, in_faketime_exec);
   }
 
+  @Override public void cloneRepository(
+    final File source,
+    final File target)
+    throws IOException
+  {
+    NullCheck.notNull(source);
+    NullCheck.notNull(target);
+
+    final List<String> args = new ArrayList<>(4);
+    args.add(this.exec.toString());
+    args.add("clone");
+    args.add(source.getCanonicalFile().toString());
+    args.add(target.getCanonicalFile().toString());
+
+    GitExecutable.LOG.debug("execute {}", args);
+
+    final ProcessBuilder pb = new ProcessBuilder();
+    final Map<String, String> env = pb.environment();
+    env.clear();
+    pb.command(args);
+    pb.redirectErrorStream(true);
+
+    final List<String> out_lines = new ArrayList<>(32);
+    ProcessUtilities.executeLogged(
+      GitExecutable.LOG, pb.start(), out_lines);
+  }
+
   @Override
   public void createRepository(final GitRepositorySpecificationType repos)
     throws IOException
@@ -105,6 +132,34 @@ public final class GitExecutable implements GitExecutableType
     args.add("checkout");
     args.add("-b");
     args.add(branch);
+    GitExecutable.LOG.debug("execute {} in {}", args, workdir);
+
+    final ProcessBuilder pb = new ProcessBuilder();
+    final Map<String, String> env = pb.environment();
+    env.clear();
+    pb.command(args);
+    pb.directory(workdir);
+    pb.redirectErrorStream(true);
+
+    final List<String> out_lines = new ArrayList<>(32);
+    ProcessUtilities.executeLogged(
+      GitExecutable.LOG, pb.start(), out_lines);
+  }
+
+  @Override public void checkoutCommit(
+    File repos,
+    GitCommitName commit)
+    throws IOException
+  {
+    NullCheck.notNull(repos);
+    NullCheck.notNull(commit);
+
+    final File workdir = repos.getCanonicalFile();
+
+    final List<String> args = new ArrayList<>(3);
+    args.add(this.exec.toString());
+    args.add("checkout");
+    args.add(commit.toString());
     GitExecutable.LOG.debug("execute {} in {}", args, workdir);
 
     final ProcessBuilder pb = new ProcessBuilder();
@@ -317,6 +372,7 @@ public final class GitExecutable implements GitExecutableType
     args.add("add");
     args.add("-v");
     args.add(".");
+    args.add(".*");
     GitExecutable.LOG.debug("execute {} in {}", args, workdir);
 
     final ProcessBuilder pb = new ProcessBuilder();

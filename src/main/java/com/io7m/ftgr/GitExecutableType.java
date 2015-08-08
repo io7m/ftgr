@@ -15,11 +15,17 @@
  */
 package com.io7m.ftgr;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 
 public interface GitExecutableType
 {
+  void cloneRepository(
+    File source,
+    File target)
+    throws IOException;
+
   void createRepository(GitRepositorySpecificationType repos)
     throws IOException;
 
@@ -31,6 +37,11 @@ public interface GitExecutableType
   void checkoutBranch(
     GitRepositorySpecificationType repos,
     String branch)
+    throws IOException;
+
+  void checkoutCommit(
+    File repos,
+    GitCommitName commit)
     throws IOException;
 
   GitCommitName createCommit(

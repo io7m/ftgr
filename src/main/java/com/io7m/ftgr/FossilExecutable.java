@@ -190,7 +190,7 @@ public final class FossilExecutable implements FossilExecutableType
 
   @Override public void checkOut(
     final FossilRepositorySpecificationType repos,
-    final FossilCommit commit,
+    final FossilCommitName commit,
     final File directory)
     throws IOException
   {
@@ -207,7 +207,7 @@ public final class FossilExecutable implements FossilExecutableType
       args.add(this.exec.toString());
       args.add("checkout");
       args.add("--force");
-      args.add(commit.getCommitBlob().toString());
+      args.add(commit.toString());
       FossilExecutable.LOG.debug("execute: {}", args);
 
       final ProcessBuilder pb = new ProcessBuilder();

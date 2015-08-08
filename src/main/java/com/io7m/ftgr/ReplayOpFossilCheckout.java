@@ -57,7 +57,9 @@ public final class ReplayOpFossilCheckout implements ReplayOperationType
 
       if (dry_run == DryRun.EXECUTE) {
         this.fossil_exec.checkOut(
-          this.fossil_repos, this.commit, this.git_repos.getDirectory());
+          this.fossil_repos,
+          this.commit.getCommitBlob(),
+          this.git_repos.getDirectory());
       }
     } catch (final IOException e) {
       throw new ReplayException(e);

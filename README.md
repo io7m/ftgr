@@ -43,22 +43,25 @@ format:
 
 ```
 # Absolute path to fossil executable
-com.io7m.ftgr.fossil_executable   = /usr/bin/fossil
+com.io7m.ftgr.fossil_executable = /usr/bin/fossil
 
 # Absolute path to git executable
-com.io7m.ftgr.git_executable      = /usr/bin/git
+com.io7m.ftgr.git_executable = /usr/bin/git
 
 # Absolute path to GPG executable
-com.io7m.ftgr.gpg_executable      = /usr/bin/gpg
+com.io7m.ftgr.gpg_executable = /usr/bin/gpg
 
 # Absolute path to faketime executable
 com.io7m.ftgr.faketime_executable = /usr/bin/faketime
 
 # True if no changes should be written to disk
-com.io7m.ftgr.dry_run             = false
+com.io7m.ftgr.dry_run = false
+
+# True if repository verification should be performed (See "Verification" below)
+com.io7m.ftgr.verify = true
 
 # Absolute path to the Git repository that will be created
-com.io7m.ftgr.git_repository    = /tmp/output
+com.io7m.ftgr.git_repository = /tmp/output
 
 # Absolute path to the input Fossil repository
 com.io7m.ftgr.fossil_repository = /tmp/input.fossil
@@ -96,9 +99,14 @@ git:gc|fossil:fc
 ```
 
 Where `gc` is a the SHA-1 hash of a `Git` commit, and `fc` is the
-SHA-1 hash of a `Fossil` commit. Verification of commits would
-proceed by checking out each `Git` commit in turn and verifying that
-it has the same content as the corresponding `Fossil` commit.
+SHA-1 hash of a `Fossil` commit.
+
+### Verification
+
+Verification of commits proceeds by checking out each `Git` commit
+mentioned in the recorded commit map, and then checking out the
+corresponding `Fossil` commit and checking that the same files with
+the same contents are present in both commits.
 
 ## How?
 

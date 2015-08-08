@@ -35,6 +35,7 @@ final class FTGRConfiguration
   private final File                  fossil_repos;
   private final DryRun                dry_run;
   private final File                  commit_mapping_file;
+  private final boolean               verification;
 
   private FTGRConfiguration(
     final File in_fossil_exec,
@@ -45,7 +46,8 @@ final class FTGRConfiguration
     final File in_git_repos,
     final File in_fossil_repos,
     final DryRun in_dry_run,
-    final File in_commit_mapping_file)
+    final File in_commit_mapping_file,
+    final boolean in_verification)
   {
     this.fossil_exec = NullCheck.notNull(in_fossil_exec);
     this.git_exec = NullCheck.notNull(in_git_exec);
@@ -56,6 +58,7 @@ final class FTGRConfiguration
     this.fossil_repos = NullCheck.notNull(in_fossil_repos);
     this.dry_run = NullCheck.notNull(in_dry_run);
     this.commit_mapping_file = NullCheck.notNull(in_commit_mapping_file);
+    this.verification = in_verification;
   }
 
   public static FTGRConfiguration fromProperties(
@@ -107,6 +110,8 @@ final class FTGRConfiguration
       dry_run = DryRun.EXECUTE;
     }
 
+    final boolean verify = JProperties.getBoolean(p, "com.io7m.ftgr.verify");
+
     return new FTGRConfiguration(
       fossil_exec,
       git_exec,
@@ -116,7 +121,13 @@ final class FTGRConfiguration
       repos_git,
       repos_fossil,
       dry_run,
-      commit_map);
+      commit_map,
+      verify);
+  }
+
+  public boolean wantVerification()
+  {
+    return this.verification;
   }
 
   public File getGitRepository()

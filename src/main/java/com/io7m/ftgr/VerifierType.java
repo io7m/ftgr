@@ -16,36 +16,15 @@
 
 package com.io7m.ftgr;
 
-import com.io7m.jfunctional.OptionType;
-
-import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.List;
 
-public interface FossilExecutableType
+/**
+ * The type of repository verifiers.
+ */
+
+public interface VerifierType
 {
-  OptionType<String> getArtifactForName(
-    FossilRepositorySpecificationType repos,
-    String name)
-    throws IOException;
-
-  List<String> getNonPropagatingTags(FossilRepositorySpecificationType repos)
-    throws IOException;
-
-  ByteBuffer getBlobForUUID(
-    FossilRepositorySpecificationType repos,
-    FossilCommitName uuid)
-    throws IOException;
-
-  void open(
-    FossilRepositorySpecificationType repos,
-    File directory)
-    throws IOException;
-
-  void checkOut(
-    FossilRepositorySpecificationType repos,
-    FossilCommitName commit,
-    File directory)
+  List<VerifierResult> verify()
     throws IOException;
 }
