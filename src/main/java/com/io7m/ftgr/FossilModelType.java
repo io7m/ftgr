@@ -15,6 +15,7 @@
  */
 package com.io7m.ftgr;
 
+import org.apache.commons.collections4.BidiMap;
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
 
 import java.util.Map;
@@ -31,4 +32,6 @@ public interface FossilModelType
   Map<Integer, FossilModelCommitNode> getNodes();
 
   FossilModelCommitNode getRootNode();
+
+  BidiMap<String, String> getTags();
 }

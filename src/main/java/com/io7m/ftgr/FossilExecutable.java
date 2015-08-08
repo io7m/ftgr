@@ -15,6 +15,8 @@
  */
 package com.io7m.ftgr;
 
+import com.io7m.jfunctional.Option;
+import com.io7m.jfunctional.OptionType;
 import com.io7m.jnull.NullCheck;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -25,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +49,81 @@ public final class FossilExecutable implements FossilExecutableType
   public static FossilExecutableType newExecutable(final File exec)
   {
     return new FossilExecutable(exec);
+  }
+
+  @Override public OptionType<String> getArtifactForName(
+    final FossilRepositorySpecificationType repos,
+    final String name)
+    throws IOException
+  {
+    NullCheck.notNull(repos);
+    NullCheck.notNull(name);
+
+    final List<String> args = new ArrayList<>(5);
+    args.add(this.exec.toString());
+    args.add("whatis");
+    args.add(name);
+    args.add("-R");
+    args.add(repos.getRepositoryFile().toString());
+    FossilExecutable.LOG.debug("execute: {}", args);
+
+    final ProcessBuilder pb = new ProcessBuilder();
+    final Map<String, String> env = pb.environment();
+    env.clear();
+    pb.command(args);
+    pb.redirectErrorStream(true);
+    final Process p = pb.start();
+
+    final List<String> out_lines = new ArrayList<>(8);
+    ProcessUtilities.executeLogged(
+      FossilExecutable.LOG, p, out_lines);
+
+    final Iterator<String> iter = out_lines.iterator();
+    while (iter.hasNext()) {
+      final String line = iter.next();
+      if (line.startsWith("artifact:")) {
+        final String[] parts = line.split(":");
+        return Option.some(parts[1].trim());
+      }
+    }
+
+    return Option.none();
+  }
+
+  @Override public List<String> getNonPropagatingTags(
+    final FossilRepositorySpecificationType repos)
+    throws IOException
+  {
+    NullCheck.notNull(repos);
+
+    final List<String> args = new ArrayList<>(5);
+    args.add(this.exec.toString());
+    args.add("tag");
+    args.add("list");
+    args.add("-R");
+    args.add(repos.getRepositoryFile().toString());
+    FossilExecutable.LOG.debug("execute: {}", args);
+
+    final ProcessBuilder pb = new ProcessBuilder();
+    final Map<String, String> env = pb.environment();
+    env.clear();
+    pb.command(args);
+    pb.redirectErrorStream(true);
+    final Process p = pb.start();
+
+    final List<String> out_lines = new ArrayList<>(64);
+    ProcessUtilities.executeLogged(
+      FossilExecutable.LOG, p, out_lines);
+
+    final Iterator<String> iter = out_lines.iterator();
+    while (iter.hasNext()) {
+      final String name = iter.next();
+      if ("trunk".equals(name)) {
+        iter.remove();
+      }
+    }
+
+    return out_lines;
   }
 
   @Override public ByteBuffer getBlobForUUID(
@@ -71,7 +149,7 @@ public final class FossilExecutable implements FossilExecutableType
     pb.redirectErrorStream(true);
     final Process p = pb.start();
 
-    final List<String> out_lines = new ArrayList<>();
+    final List<String> out_lines = new ArrayList<>(32);
     ProcessUtilities.executeLogged(
       FossilExecutable.LOG, p, out_lines);
 
@@ -105,7 +183,7 @@ public final class FossilExecutable implements FossilExecutableType
     pb.directory(directory);
     pb.redirectErrorStream(true);
 
-    final List<String> out_lines = new ArrayList<>();
+    final List<String> out_lines = new ArrayList<>(32);
     ProcessUtilities.executeLogged(
       FossilExecutable.LOG, pb.start(), out_lines);
   }
@@ -141,7 +219,7 @@ public final class FossilExecutable implements FossilExecutableType
       pb.directory(directory);
       pb.redirectErrorStream(true);
 
-      final List<String> out_lines = new ArrayList<>();
+      final List<String> out_lines = new ArrayList<>(32);
       ProcessUtilities.executeLogged(
         FossilExecutable.LOG, pb.start(), out_lines);
     }
@@ -167,7 +245,7 @@ public final class FossilExecutable implements FossilExecutableType
       pb.directory(directory);
       pb.redirectErrorStream(true);
 
-      final List<String> out_lines = new ArrayList<>();
+      final List<String> out_lines = new ArrayList<>(32);
       ProcessUtilities.executeLogged(
         FossilExecutable.LOG, pb.start(), out_lines);
     }

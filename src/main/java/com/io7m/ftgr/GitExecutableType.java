@@ -42,6 +42,14 @@ public interface GitExecutableType
     long key_id)
     throws IOException;
 
+  void createTag(
+    GitRepositorySpecificationType repos,
+    Timestamp time,
+    GitIdent user,
+    long key_id,
+    String tag_name)
+    throws IOException;
+
   String createRootCommit(
     GitRepositorySpecificationType repos,
     Timestamp time,

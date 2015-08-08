@@ -171,6 +171,5 @@ public final class FossilDatabase implements FossilDatabaseType
 
       return xs;
     }
-
   }
 }

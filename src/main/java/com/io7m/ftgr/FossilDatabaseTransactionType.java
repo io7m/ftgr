@@ -28,5 +28,4 @@ public interface FossilDatabaseTransactionType extends AutoCloseable
 
   List<FossilParentLink> getParentLinks()
     throws FossilDatabaseException;
-
 }

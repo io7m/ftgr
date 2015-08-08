@@ -29,4 +29,8 @@ public interface FossilModelBuilderType
 
   void addParentLink(FossilParentLink p)
     throws FossilGraphException;
+
+  void addTag(
+    String tag,
+    String commit);
 }

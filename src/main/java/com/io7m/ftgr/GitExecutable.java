@@ -86,7 +86,7 @@ public final class GitExecutable implements GitExecutableType
     pb.directory(workdir);
     pb.redirectErrorStream(true);
 
-    final List<String> out_lines = new ArrayList<>();
+    final List<String> out_lines = new ArrayList<>(32);
     ProcessUtilities.executeLogged(
       GitExecutable.LOG, pb.start(), out_lines);
   }
@@ -114,7 +114,7 @@ public final class GitExecutable implements GitExecutableType
     pb.directory(workdir);
     pb.redirectErrorStream(true);
 
-    final List<String> out_lines = new ArrayList<>();
+    final List<String> out_lines = new ArrayList<>(32);
     ProcessUtilities.executeLogged(
       GitExecutable.LOG, pb.start(), out_lines);
   }
@@ -146,7 +146,7 @@ public final class GitExecutable implements GitExecutableType
     pb.directory(workdir);
     pb.redirectErrorStream(true);
 
-    final List<String> out_lines = new ArrayList<>();
+    final List<String> out_lines = new ArrayList<>(32);
     ProcessUtilities.executeLogged(
       GitExecutable.LOG, pb.start(), out_lines);
   }
@@ -168,6 +168,53 @@ public final class GitExecutable implements GitExecutableType
 
     return this.commit(
       repos, time, user, comment, branch, Option.some(Long.valueOf(key_id)));
+  }
+
+  @Override public void createTag(
+    final GitRepositorySpecificationType repos,
+    final Timestamp time,
+    final GitIdent user,
+    final long key_id,
+    final String tag_name)
+    throws IOException
+  {
+    NullCheck.notNull(repos);
+    NullCheck.notNull(time);
+    NullCheck.notNull(user);
+    NullCheck.notNull(tag_name);
+
+    final File workdir = repos.getDirectory().getCanonicalFile();
+
+    final List<String> args = new ArrayList<>(10);
+    args.add(this.faketime_exec.toString());
+    args.add(time.toString());
+    args.add(this.exec.toString());
+    args.add("tag");
+    args.add("-s");
+    args.add("-u");
+    args.add(String.format("0x%s", Long.toHexString(key_id)));
+    args.add("-m");
+    args.add(tag_name);
+    args.add(tag_name);
+
+    GitExecutable.LOG.debug("execute {} in {}", args, workdir);
+
+    final ProcessBuilder pb = new ProcessBuilder();
+    final Map<String, String> env = pb.environment();
+    env.put("GIT_AUTHOR_DATE", time.toString());
+    env.put("GIT_AUTHOR_NAME", user.getName());
+    env.put("GIT_AUTHOR_EMAIL", user.getEmail());
+    env.put("GIT_COMMITTER_DATE", time.toString());
+    env.put("GIT_COMMITTER_NAME", user.getName());
+    env.put("GIT_COMMITTER_EMAIL", user.getEmail());
+
+    pb.command(args);
+    pb.directory(workdir);
+    pb.redirectErrorStream(true);
+    final Process p = pb.start();
+
+    final List<String> out_lines = new ArrayList<>(32);
+    ProcessUtilities.executeLogged(GitExecutable.LOG, p, out_lines);
   }
 
   @Override public String createRootCommit(
@@ -205,7 +252,7 @@ public final class GitExecutable implements GitExecutableType
       pb.directory(workdir);
       pb.redirectErrorStream(true);
 
-      final List<String> out_lines = new ArrayList<>();
+      final List<String> out_lines = new ArrayList<>(32);
       ProcessUtilities.executeLogged(
         GitExecutable.LOG, pb.start(), out_lines);
     }
@@ -219,7 +266,7 @@ public final class GitExecutable implements GitExecutableType
       try (final FileOutputStream out = new FileOutputStream(
         new File(
           workdir, ".gitignore"))) {
-        final List<String> lines = new ArrayList<>();
+        final List<String> lines = new ArrayList<>(32);
         lines.add(".fslckout");
         IOUtils.writeLines(lines, "\n", out);
         out.flush();
@@ -245,7 +292,7 @@ public final class GitExecutable implements GitExecutableType
       pb.directory(workdir);
       pb.redirectErrorStream(true);
 
-      final List<String> out_lines = new ArrayList<>();
+      final List<String> out_lines = new ArrayList<>(32);
       ProcessUtilities.executeLogged(
         GitExecutable.LOG, pb.start(), out_lines);
     }
@@ -279,7 +326,7 @@ public final class GitExecutable implements GitExecutableType
     pb.directory(workdir);
     pb.redirectErrorStream(true);
 
-    final List<String> out_lines = new ArrayList<>();
+    final List<String> out_lines = new ArrayList<>(32);
     ProcessUtilities.executeLogged(
       GitExecutable.LOG, pb.start(), out_lines);
   }
@@ -319,7 +366,7 @@ public final class GitExecutable implements GitExecutableType
       pb.directory(workdir);
       pb.redirectErrorStream(true);
 
-      final List<String> out_lines = new ArrayList<>();
+      final List<String> out_lines = new ArrayList<>(32);
       ProcessUtilities.executeLogged(
         GitExecutable.LOG, pb.start(), out_lines);
     }
@@ -353,7 +400,7 @@ public final class GitExecutable implements GitExecutableType
       pb.directory(workdir);
       pb.redirectErrorStream(true);
 
-      final List<String> out_lines = new ArrayList<>();
+      final List<String> out_lines = new ArrayList<>(32);
       ProcessUtilities.executeLogged(
         GitExecutable.LOG, pb.start(), out_lines);
     }
@@ -412,7 +459,7 @@ public final class GitExecutable implements GitExecutableType
       stdin.close();
     }
 
-    final List<String> out_lines = new ArrayList<>();
+    final List<String> out_lines = new ArrayList<>(32);
     ProcessUtilities.executeLogged(
       GitExecutable.LOG, p, out_lines);
 

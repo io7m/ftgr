@@ -141,6 +141,16 @@ public final class FTGRMain
       }
     }
 
+    final List<String> tag_list = fossil.getNonPropagatingTags(fossil_repos);
+    for (final String tag : tag_list) {
+      final OptionType<String> tag_commit =
+        fossil.getArtifactForName(fossil_repos, tag);
+      if (tag_commit.isSome()) {
+        final Some<String> some_commit = (Some<String>) tag_commit;
+        model_builder.addTag(tag, some_commit.get());
+      }
+    }
+
     final FossilModelType model = model_builder.build();
     final ReplayPlannerType planner =
       ReplayPlanner.newPlanner(gpg, fossil, git, git_repos, fossil_repos);

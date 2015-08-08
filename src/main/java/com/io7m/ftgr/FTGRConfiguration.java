@@ -73,7 +73,7 @@ final class FTGRConfiguration
     final File faketime_exec =
       new File(JProperties.getString(p, "com.io7m.ftgr.faketime_executable"));
 
-    final Map<String, GitIdent> name_map = new HashMap<>();
+    final Map<String, GitIdent> name_map = new HashMap<>(8);
     for (final Object k : p.keySet()) {
       final String ks = NullCheck.notNull((String) k);
       if (ks.startsWith("com.io7m.ftgr.name_map.")) {

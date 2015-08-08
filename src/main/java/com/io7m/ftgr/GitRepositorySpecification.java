@@ -79,7 +79,7 @@ public final class GitRepositorySpecification
     public Builder(final File in_directory)
     {
       this.directory = NullCheck.notNull(in_directory);
-      this.name_map = new HashMap<>();
+      this.name_map = new HashMap<>(8);
     }
 
     @Override public GitRepositorySpecificationType build()

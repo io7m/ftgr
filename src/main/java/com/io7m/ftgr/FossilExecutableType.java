@@ -13,14 +13,26 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.ftgr;
+
+import com.io7m.jfunctional.OptionType;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.List;
 
 public interface FossilExecutableType
 {
+  OptionType<String> getArtifactForName(
+    FossilRepositorySpecificationType repos,
+    String name)
+    throws IOException;
+
+  List<String> getNonPropagatingTags(FossilRepositorySpecificationType repos)
+    throws IOException;
+
   ByteBuffer getBlobForUUID(
     FossilRepositorySpecificationType repos,
     String uuid)

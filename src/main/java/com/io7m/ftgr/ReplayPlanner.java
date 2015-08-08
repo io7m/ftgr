@@ -85,7 +85,7 @@ public final class ReplayPlanner implements ReplayPlannerType
       throw new ReplayExceptionEnviromentNotSet("HOME");
     }
 
-    final List<ReplayOperationType> p = new ArrayList<>();
+    final List<ReplayOperationType> p = new ArrayList<>(128);
 
     /**
      * Check that the user performing the replay has all the required private
@@ -106,7 +106,7 @@ public final class ReplayPlanner implements ReplayPlannerType
         g = m.getGraph();
       final Iterator<FossilModelCommitNode> iter = g.iterator();
 
-      final Set<String> checked = new HashSet<>();
+      final Set<String> checked = new HashSet<>(128);
       while (iter.hasNext()) {
         final FossilModelCommitNode node = iter.next();
         final FossilCommit commit = node.getCommit();
@@ -147,7 +147,7 @@ public final class ReplayPlanner implements ReplayPlannerType
        * The commits are sorted topologically, order them by date.
        */
 
-      final List<FossilModelCommitNode> dated = new ArrayList<>();
+      final List<FossilModelCommitNode> dated = new ArrayList<>(128);
       while (iter.hasNext()) {
         dated.add(iter.next());
       }
@@ -167,7 +167,8 @@ public final class ReplayPlanner implements ReplayPlannerType
 
       for (int index = 0; index < dated.size(); ++index) {
         final FossilModelCommitNode node = NullCheck.notNull(dated.get(index));
-        this.processCommit(p, signers, root_node, g, node, commit_log);
+        this.processCommit(
+          p, signers, root_node, g, node, m.getTags(), commit_log);
       }
     }
 
@@ -180,6 +181,7 @@ public final class ReplayPlanner implements ReplayPlannerType
     final FossilModelCommitNode root_node,
     final DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink> g,
     final FossilModelCommitNode node,
+    final BidiMap<String, String> tags,
     final BidiMap<String, FossilCommit> commit_log)
   {
     /**
@@ -259,5 +261,12 @@ public final class ReplayPlanner implements ReplayPlannerType
     plan.add(
       new ReplayOpGitCommit(
         this.git, this.git_repos, commit, k, commit_log));
+
+    if (tags.containsValue(commit.getCommitBlob())) {
+      final String name = tags.getKey(commit.getCommitBlob());
+      plan.add(
+        new ReplayOpGitTag(
+          this.git, this.git_repos, commit, k, name));
+    }
   }
 }

@@ -13,9 +13,12 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.ftgr;
 
 import com.io7m.jnull.NullCheck;
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.jgrapht.EdgeFactory;
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
 import org.slf4j.Logger;
@@ -42,6 +45,7 @@ public final class FossilModel implements FossilModelType
   private final Set<String>                         branches;
   private final Map<Integer, Long>                  signers;
   private final FossilModelCommitNode               root;
+  private final BidiMap<String, String>             tags;
 
   private FossilModel(
     final DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink>
@@ -49,13 +53,15 @@ public final class FossilModel implements FossilModelType
     final Map<Integer, FossilModelCommitNode> in_nodes,
     final Set<String> in_branches,
     final Map<Integer, Long> in_signers,
-    final FossilModelCommitNode in_root)
+    final FossilModelCommitNode in_root,
+    final BidiMap<String, String> in_tags)
   {
     this.graph = NullCheck.notNull(in_graph);
     this.nodes = NullCheck.notNull(in_nodes);
     this.branches = NullCheck.notNull(in_branches);
     this.signers = NullCheck.notNull(in_signers);
     this.root = NullCheck.notNull(in_root);
+    this.tags = NullCheck.notNull(in_tags);
   }
 
   public static FossilModelBuilderType newBuilder()
@@ -90,6 +96,11 @@ public final class FossilModel implements FossilModelType
     return this.root;
   }
 
+  @Override public BidiMap<String, String> getTags()
+  {
+    return this.tags;
+  }
+
   private static final class Builder implements FossilModelBuilderType
   {
     private final EdgeFactory<FossilModelCommitNode, FossilModelCommitLink>
@@ -100,6 +111,7 @@ public final class FossilModel implements FossilModelType
     private final Map<Integer, FossilModelCommitNode> nodes;
     private final Set<String>                         branches;
     private final Map<Integer, Long>                  signers;
+    private final BidiMap<String, String>             tags;
 
     Builder()
     {
@@ -114,11 +126,11 @@ public final class FossilModel implements FossilModelType
           }
         };
 
-      this.nodes = new HashMap<>();
-      this.branches = new HashSet<>();
-      this.signers = new HashMap<>();
-      this.graph = new DirectedAcyclicGraph<>(
-        this.edges);
+      this.nodes = new HashMap<>(128);
+      this.branches = new HashSet<>(32);
+      this.signers = new HashMap<>(8);
+      this.tags = new DualHashBidiMap<>();
+      this.graph = new DirectedAcyclicGraph<>(this.edges);
     }
 
     @Override public void addCommit(final FossilCommit c)
@@ -141,7 +153,7 @@ public final class FossilModel implements FossilModelType
     @Override public FossilModelType build()
       throws FossilGraphException
     {
-      final Set<FossilModelCommitNode> roots = new HashSet<>();
+      final Set<FossilModelCommitNode> roots = new HashSet<>(2);
 
       final Iterator<FossilModelCommitNode> iter = NullCheck.notNull(
         this.graph.iterator());
@@ -167,7 +179,7 @@ public final class FossilModel implements FossilModelType
       FossilModel.LOG.debug("root node is: {}", root);
 
       return new FossilModel(
-        this.graph, this.nodes, this.branches, this.signers, root);
+        this.graph, this.nodes, this.branches, this.signers, root, this.tags);
     }
 
     @Override public void addParentLink(final FossilParentLink p)
@@ -185,6 +197,15 @@ public final class FossilModel implements FossilModelType
       } catch (final DirectedAcyclicGraph.CycleFoundException e) {
         throw new FossilGraphException(e);
       }
+    }
+
+    @Override public void addTag(
+      final String tag,
+      final String commit)
+    {
+      NullCheck.notNull(tag);
+      NullCheck.notNull(commit);
+      this.tags.put(tag, commit);
     }
   }
 }

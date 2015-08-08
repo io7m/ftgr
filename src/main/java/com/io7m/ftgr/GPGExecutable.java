@@ -51,7 +51,7 @@ public final class GPGExecutable implements GPGExecutableType
   {
     final String key_id = String.format("0x%016x", Long.valueOf(id));
 
-    final List<String> args = new ArrayList<>();
+    final List<String> args = new ArrayList<>(3);
     args.add(this.exec.toString());
     args.add("--list-secret-key");
     args.add(key_id);
@@ -65,7 +65,7 @@ public final class GPGExecutable implements GPGExecutableType
     pb.redirectInput(ProcessBuilder.Redirect.from(new File("/dev/null")));
 
     final Process p = pb.start();
-    final List<String> out_lines = new ArrayList<>();
+    final List<String> out_lines = new ArrayList<>(16);
     ProcessUtilities.executeLogged(
       GPGExecutable.LOG, p, out_lines);
     return true;
