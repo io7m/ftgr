@@ -71,7 +71,7 @@ public final class ReplayPlanner implements ReplayPlannerType
 
   @Override public List<ReplayOperationType> plan(
     final FossilModelType m,
-    final BidiMap<String, FossilCommit> commit_log)
+    final BidiMap<GitCommitName, FossilCommit> commit_log)
     throws ReplayException
   {
     ReplayPlanner.LOG.debug("planning replay for model");
@@ -182,7 +182,7 @@ public final class ReplayPlanner implements ReplayPlannerType
     final DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink> g,
     final FossilModelCommitNode node,
     final BidiMap<String, String> tags,
-    final BidiMap<String, FossilCommit> commit_log)
+    final BidiMap<GitCommitName, FossilCommit> commit_log)
   {
     /**
      * If this node is the root node, ignore it.

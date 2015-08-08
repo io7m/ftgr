@@ -33,7 +33,7 @@ public interface GitExecutableType
     String branch)
     throws IOException;
 
-  String createCommit(
+  GitCommitName createCommit(
     GitRepositorySpecificationType repos,
     Timestamp time,
     GitIdent user,
@@ -50,7 +50,7 @@ public interface GitExecutableType
     String tag_name)
     throws IOException;
 
-  String createRootCommit(
+  GitCommitName createRootCommit(
     GitRepositorySpecificationType repos,
     Timestamp time,
     GitIdent user,

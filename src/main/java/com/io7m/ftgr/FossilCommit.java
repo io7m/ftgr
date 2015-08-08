@@ -22,17 +22,17 @@ import java.sql.Timestamp;
 
 public final class FossilCommit
 {
-  private final String    commit_blob;
-  private final Timestamp commit_time;
-  private final String    commit_comment;
-  private final String    commit_user;
-  private final String    branch;
-  private final boolean   branch_is_new;
-  private final int       id;
+  private final FossilCommitName commit_blob;
+  private final Timestamp        commit_time;
+  private final String           commit_comment;
+  private final String           commit_user;
+  private final String           branch;
+  private final boolean          branch_is_new;
+  private final int              id;
 
   public FossilCommit(
     final int in_commit_id,
-    final String in_commit_blob,
+    final FossilCommitName in_commit_blob,
     final Timestamp in_commit_time,
     final String in_commit_comment,
     final String in_branch,
@@ -53,7 +53,7 @@ public final class FossilCommit
     return this.branch_is_new;
   }
 
-  public String getCommitBlob()
+  public FossilCommitName getCommitBlob()
   {
     return this.commit_blob;
   }

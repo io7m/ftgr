@@ -31,18 +31,18 @@ public final class ReplayOpGitCommit implements ReplayOperationType
     LOG = LoggerFactory.getLogger(ReplayOpGitCommit.class);
   }
 
-  private final GitExecutableType              git;
-  private final GitRepositorySpecificationType repos;
-  private final FossilCommit                   commit;
-  private final long                           key;
-  private final Map<String, FossilCommit>      commits;
+  private final GitExecutableType                git;
+  private final GitRepositorySpecificationType   repos;
+  private final FossilCommit                     commit;
+  private final long                             key;
+  private final Map<GitCommitName, FossilCommit> commits;
 
   public ReplayOpGitCommit(
     final GitExecutableType in_git,
     final GitRepositorySpecificationType in_repos,
     final FossilCommit in_commit,
     final long key_id,
-    final BidiMap<String, FossilCommit> in_commits)
+    final BidiMap<GitCommitName, FossilCommit> in_commits)
   {
     this.git = NullCheck.notNull(in_git);
     this.repos = NullCheck.notNull(in_repos);
@@ -63,7 +63,7 @@ public final class ReplayOpGitCommit implements ReplayOperationType
     try {
       final GitIdent ident = this.repos.getUserNameMapping(
         this.commit.getCommitUser());
-      this.git.createCommit(
+      final GitCommitName r = this.git.createCommit(
         this.repos,
         this.commit.getCommitTime(),
         ident,
@@ -71,7 +71,7 @@ public final class ReplayOpGitCommit implements ReplayOperationType
         this.commit.getBranch(),
         this.key);
 
-      this.commits.put(this.commit.getCommitBlob(), this.commit);
+      this.commits.put(r, this.commit);
     } catch (final IOException e) {
       throw new ReplayException(e);
     }

@@ -128,7 +128,7 @@ public final class FossilExecutable implements FossilExecutableType
 
   @Override public ByteBuffer getBlobForUUID(
     final FossilRepositorySpecificationType repos,
-    final String uuid)
+    final FossilCommitName uuid)
     throws IOException
   {
     NullCheck.notNull(repos);
@@ -139,7 +139,7 @@ public final class FossilExecutable implements FossilExecutableType
     args.add("artifact");
     args.add("-R");
     args.add(repos.getRepositoryFile().toString());
-    args.add(uuid);
+    args.add(uuid.toString());
     FossilExecutable.LOG.debug("execute: {}", args);
 
     final ProcessBuilder pb = new ProcessBuilder();
@@ -207,7 +207,7 @@ public final class FossilExecutable implements FossilExecutableType
       args.add(this.exec.toString());
       args.add("checkout");
       args.add("--force");
-      args.add(commit.getCommitBlob());
+      args.add(commit.getCommitBlob().toString());
       FossilExecutable.LOG.debug("execute: {}", args);
 
       final ProcessBuilder pb = new ProcessBuilder();

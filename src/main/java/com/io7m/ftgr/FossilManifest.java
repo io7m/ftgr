@@ -60,7 +60,7 @@ final class FossilManifest
    */
 
   public static OptionType<Long> getSignatureKey(
-    final String uuid,
+    final FossilCommitName uuid,
     final ByteBuffer b)
     throws IOException
   {
@@ -83,7 +83,7 @@ final class FossilManifest
   }
 
   private static OptionType<Long> tryLines(
-    final String uuid,
+    final FossilCommitName uuid,
     final List<String> lines)
     throws IOException
   {
@@ -100,7 +100,7 @@ final class FossilManifest
   }
 
   private static OptionType<Long> trySignatureLines(
-    final String uuid,
+    final FossilCommitName uuid,
     final List<String> lines)
     throws IOException
   {
@@ -115,7 +115,7 @@ final class FossilManifest
   }
 
   private static OptionType<Long> trySignature(
-    final String uuid,
+    final FossilCommitName uuid,
     final ByteArrayInputStream bai)
     throws IOException
   {

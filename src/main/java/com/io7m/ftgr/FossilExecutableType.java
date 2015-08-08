@@ -35,7 +35,7 @@ public interface FossilExecutableType
 
   ByteBuffer getBlobForUUID(
     FossilRepositorySpecificationType repos,
-    String uuid)
+    FossilCommitName uuid)
     throws IOException;
 
   void open(

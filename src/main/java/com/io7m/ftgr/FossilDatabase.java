@@ -128,7 +128,9 @@ public final class FossilDatabase implements FossilDatabaseType
         try (final ResultSet rs = st.executeQuery()) {
           while (rs.next()) {
             final int id = rs.getInt("commit_id");
-            final String blob = NullCheck.notNull(rs.getString("commit_blob"));
+            final FossilCommitName blob =
+              new FossilCommitName(NullCheck.notNull(rs.getString
+                                                       ("commit_blob")));
             final String comment =
               NullCheck.notNull(rs.getString("commit_comment"));
             final String time_raw =

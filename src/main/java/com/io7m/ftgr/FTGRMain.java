@@ -130,7 +130,7 @@ public final class FTGRMain
 
     for (final Integer k : commits.keySet()) {
       final FossilCommit c = NullCheck.notNull(commits.get(k));
-      final String uuid = c.getCommitBlob();
+      final FossilCommitName uuid = c.getCommitBlob();
       final ByteBuffer data = fossil.getBlobForUUID(fossil_repos, uuid);
       final OptionType<Long> key_id_opt =
         FossilManifest.getSignatureKey(uuid, data);
@@ -154,7 +154,8 @@ public final class FTGRMain
     final FossilModelType model = model_builder.build();
     final ReplayPlannerType planner =
       ReplayPlanner.newPlanner(gpg, fossil, git, git_repos, fossil_repos);
-    final BidiMap<String, FossilCommit> commit_log = new DualHashBidiMap<>();
+    final BidiMap<GitCommitName, FossilCommit> commit_log =
+      new DualHashBidiMap<>();
     final List<ReplayOperationType> plan = planner.plan(model, commit_log);
     final ReplayExecutorType exec = ReplayExecutor.newExecutor();
     exec.executePlan(plan, config.getDryRun());
@@ -172,7 +173,7 @@ public final class FTGRMain
           try (final PrintWriter fw = new PrintWriter(
             new OutputStreamWriter(map_file))) {
 
-            for (final String git_commit : commit_log.keySet()) {
+            for (final GitCommitName git_commit : commit_log.keySet()) {
               final FossilCommit fossil_commit =
                 NullCheck.notNull(commit_log.get(git_commit));
               fw.printf(

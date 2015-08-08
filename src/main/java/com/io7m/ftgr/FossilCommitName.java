@@ -16,14 +16,38 @@
 
 package com.io7m.ftgr;
 
-import org.apache.commons.collections4.BidiMap;
+import com.io7m.jnull.NullCheck;
 
-import java.util.List;
-
-public interface ReplayPlannerType
+public final class FossilCommitName
 {
-  List<ReplayOperationType> plan(
-    FossilModelType m,
-    BidiMap<GitCommitName, FossilCommit> commit_log)
-    throws ReplayException;
+  private final String value;
+
+  public FossilCommitName(final String in_value)
+  {
+    this.value = NullCheck.notNull(in_value);
+  }
+
+  @Override public boolean equals(final Object o)
+  {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || this.getClass() != o.getClass()) {
+      return false;
+    }
+
+    final FossilCommitName that = (FossilCommitName) o;
+    return this.value.equals(that.value);
+
+  }
+
+  @Override public String toString()
+  {
+    return this.value;
+  }
+
+  @Override public int hashCode()
+  {
+    return this.value.hashCode();
+  }
 }

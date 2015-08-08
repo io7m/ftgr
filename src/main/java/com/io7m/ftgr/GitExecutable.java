@@ -151,7 +151,7 @@ public final class GitExecutable implements GitExecutableType
       GitExecutable.LOG, pb.start(), out_lines);
   }
 
-  @Override public String createCommit(
+  @Override public GitCommitName createCommit(
     final GitRepositorySpecificationType repos,
     final Timestamp time,
     final GitIdent user,
@@ -217,7 +217,7 @@ public final class GitExecutable implements GitExecutableType
     ProcessUtilities.executeLogged(GitExecutable.LOG, p, out_lines);
   }
 
-  @Override public String createRootCommit(
+  @Override public GitCommitName createRootCommit(
     final GitRepositorySpecificationType repos,
     final Timestamp time,
     final GitIdent user,
@@ -406,7 +406,7 @@ public final class GitExecutable implements GitExecutableType
     }
   }
 
-  private String commit(
+  private GitCommitName commit(
     final GitRepositorySpecificationType repos,
     final Timestamp time,
     final GitIdent user,
@@ -477,7 +477,7 @@ public final class GitExecutable implements GitExecutableType
           String.format(
             "File %s turned out to be empty!", head));
       }
-      return NullCheck.notNull(lines.get(0).trim());
+      return new GitCommitName(NullCheck.notNull(lines.get(0).trim()));
     }
   }
 }
