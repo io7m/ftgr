@@ -130,6 +130,8 @@ public final class FTGRMain
       }
     }
 
+    final Map<Long, Long> key_map = config.getKeyMap();
+
     for (final Integer k : commits.keySet()) {
       final FossilCommit c = NullCheck.notNull(commits.get(k));
       final FossilCommitName uuid = c.getCommitBlob();
@@ -139,7 +141,21 @@ public final class FTGRMain
 
       if (key_id_opt.isSome()) {
         final Some<Long> some = (Some<Long>) key_id_opt;
-        model_builder.setSigningKey(k.intValue(), some.get());
+        final Long signing_key = some.get();
+        final Long actual_key;
+
+        if (key_map.containsKey(signing_key)) {
+          actual_key = NullCheck.notNull(key_map.get(signing_key));
+          FTGRMain.LOG.debug(
+            "mapped pgp key {} → {}",
+            Long.toHexString(signing_key),
+            Long.toHexString(actual_key));
+        } else {
+          actual_key = signing_key;
+        }
+
+        LOG.debug("commit {} key {}", k, Long.toHexString(actual_key));
+        model_builder.setSigningKey(k.intValue(), actual_key);
       }
     }
 
