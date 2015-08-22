@@ -1,6 +1,8 @@
 io7m-ftgr
 =========
 
+[![Build Status](https://travis-ci.org/io7m/ftgr.svg?branch=master)](https://travis-ci.org/io7m/ftgr)
+
 ## What is this?
 
 `ftgr` is a tool made for a very specific purpose: Take a
