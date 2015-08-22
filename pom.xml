@@ -23,6 +23,50 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 
+  <licenses>
+    <license>
+      <name>ISC License</name>
+      <url>http://io7m.com/license/isc.txt</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/io7m/ftgr</url>
+    <connection>scm:git:https://github.com/io7m/ftgr</connection>
+    <developerConnection>scm:git:https://github.com/io7m/ftgr</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>io7m</id>
+      <name>io7m</name>
+      <email>code@io7m.com</email>
+      <url>http://io7m.com</url>
+    </developer>
+  </developers>
+
+  <issueManagement>
+    <url>http://github.com/io7m/ftgr/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <distributionManagement>
+    <site>
+      <id>GitHub</id>
+      <name>github.com</name>
+      <url>${project.url}</url>
+    </site>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/io7m/ftgr</url>
+  </ciManagement>
+
   <dependencies>
     <dependency>
       <groupId>com.io7m.jnull</groupId>
@@ -143,15 +187,12 @@
           <archive>
             <manifestEntries>
               <Specification-Title>${project.name}</Specification-Title>
-              <Specification-Version>${project.version}
-              </Specification-Version>
+              <Specification-Version>${project.version}</Specification-Version>
               <Specification-Vendor>io7m.com</Specification-Vendor>
               <Implementation-Title>${project.name}</Implementation-Title>
-              <Implementation-Version>${project.version}
-              </Implementation-Version>
+              <Implementation-Version>${project.version}</Implementation-Version>
               <Implementation-Vendor>io7m.com</Implementation-Vendor>
-              <Implementation-Vendor-Id>${project.groupId}
-              </Implementation-Vendor-Id>
+              <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
               <Built-By>io7m</Built-By>
               <Sealed>true</Sealed>
             </manifestEntries>
@@ -168,22 +209,19 @@
           <execution>
             <phase>package</phase>
             <goals>
-              <goal>jar</goal>
-              <goal>test-jar</goal>
+              <goal>jar-no-fork</goal>
+              <goal>test-jar-no-fork</goal>
             </goals>
             <configuration>
               <archive>
                 <manifestEntries>
                   <Specification-Title>${project.name}</Specification-Title>
-                  <Specification-Version>${project.version}
-                  </Specification-Version>
+                  <Specification-Version>${project.version}</Specification-Version>
                   <Specification-Vendor>io7m.com</Specification-Vendor>
                   <Implementation-Title>${project.name}</Implementation-Title>
-                  <Implementation-Version>${project.version}
-                  </Implementation-Version>
+                  <Implementation-Version>${project.version}</Implementation-Version>
                   <Implementation-Vendor>io7m.com</Implementation-Vendor>
-                  <Implementation-Vendor-Id>${project.groupId}
-                  </Implementation-Vendor-Id>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
                   <Built-By>io7m</Built-By>
                 </manifestEntries>
               </archive>
@@ -210,15 +248,12 @@
               <archive>
                 <manifestEntries>
                   <Specification-Title>${project.name}</Specification-Title>
-                  <Specification-Version>${project.version}
-                  </Specification-Version>
+                  <Specification-Version>${project.version}</Specification-Version>
                   <Specification-Vendor>io7m.com</Specification-Vendor>
                   <Implementation-Title>${project.name}</Implementation-Title>
-                  <Implementation-Version>${project.version}
-                  </Implementation-Version>
+                  <Implementation-Version>${project.version}</Implementation-Version>
                   <Implementation-Vendor>io7m.com</Implementation-Vendor>
-                  <Implementation-Vendor-Id>${project.groupId}
-                  </Implementation-Vendor-Id>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
                   <Built-By>io7m</Built-By>
                 </manifestEntries>
               </archive>
@@ -241,15 +276,12 @@
               <archive>
                 <manifestEntries>
                   <Specification-Title>${project.name}</Specification-Title>
-                  <Specification-Version>${project.version}
-                  </Specification-Version>
+                  <Specification-Version>${project.version}</Specification-Version>
                   <Specification-Vendor>io7m.com</Specification-Vendor>
                   <Implementation-Title>${project.name}</Implementation-Title>
-                  <Implementation-Version>${project.version}
-                  </Implementation-Version>
+                  <Implementation-Version>${project.version}</Implementation-Version>
                   <Implementation-Vendor>io7m.com</Implementation-Vendor>
-                  <Implementation-Vendor-Id>${project.groupId}
-                  </Implementation-Vendor-Id>
+                  <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
                   <Built-By>io7m</Built-By>
                   <Main-Class>com.io7m.ftgr.FTGRMain</Main-Class>
                 </manifestEntries>
@@ -258,21 +290,6 @@
                 <descriptor>src/main/assembly/main.xml</descriptor>
               </descriptors>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Enable code coverage for unit tests -->
-      <plugin>
-        <groupId>org.sonatype.maven.plugin</groupId>
-        <artifactId>emma-maven-plugin</artifactId>
-        <version>1.2</version>
-        <executions>
-          <execution>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>instrument</goal>
-            </goals>
           </execution>
         </executions>
       </plugin>
