@@ -181,7 +181,7 @@ public final class ReplayPlanner implements ReplayPlannerType
     final FossilModelCommitNode root_node,
     final DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink> g,
     final FossilModelCommitNode node,
-    final BidiMap<String, String> tags,
+    final BidiMap<FossilTagName, FossilCommitName> tags,
     final BidiMap<GitCommitName, FossilCommit> commit_log)
   {
     /**
@@ -262,11 +262,14 @@ public final class ReplayPlanner implements ReplayPlannerType
       new ReplayOpGitCommit(
         this.git, this.git_repos, commit, k, commit_log));
 
-    if (tags.containsValue(commit.getCommitBlob())) {
-      final String name = tags.getKey(commit.getCommitBlob());
-      plan.add(
-        new ReplayOpGitTag(
-          this.git, this.git_repos, commit, k, name));
+    /**
+     * Tag the commit, if necessary.
+     */
+
+    final FossilCommitName commit_name = commit.getCommitBlob();
+    if (tags.containsValue(commit_name)) {
+      final FossilTagName name = tags.getKey(commit_name);
+      plan.add(new ReplayOpGitTag(this.git, this.git_repos, commit, k, name));
     }
   }
 }

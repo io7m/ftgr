@@ -22,13 +22,13 @@ import java.sql.Timestamp;
 
 public final class FossilTag
 {
-  private final String    name;
+  private final FossilTagName    name;
   private final int       commit_id;
   private final Timestamp creation_time;
 
   public FossilTag(
     final int in_commit_id,
-    final String in_name,
+    final FossilTagName in_name,
     final Timestamp in_creation_time)
   {
     this.commit_id = in_commit_id;
@@ -83,7 +83,7 @@ public final class FossilTag
     return this.creation_time;
   }
 
-  public String getName()
+  public FossilTagName getName()
   {
     return this.name;
   }

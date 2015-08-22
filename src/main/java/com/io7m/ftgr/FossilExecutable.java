@@ -51,7 +51,7 @@ public final class FossilExecutable implements FossilExecutableType
     return new FossilExecutable(exec);
   }
 
-  @Override public OptionType<String> getArtifactForName(
+  @Override public OptionType<FossilCommitName> getArtifactForName(
     final FossilRepositorySpecificationType repos,
     final String name)
     throws IOException
@@ -83,14 +83,14 @@ public final class FossilExecutable implements FossilExecutableType
       final String line = iter.next();
       if (line.startsWith("artifact:")) {
         final String[] parts = line.split(":");
-        return Option.some(parts[1].trim());
+        return Option.some(new FossilCommitName(parts[1].trim()));
       }
     }
 
     return Option.none();
   }
 
-  @Override public List<String> getNonPropagatingTags(
+  @Override public List<FossilTagName> getNonPropagatingTags(
     final FossilRepositorySpecificationType repos)
     throws IOException
   {
@@ -115,15 +115,16 @@ public final class FossilExecutable implements FossilExecutableType
     ProcessUtilities.executeLogged(
       FossilExecutable.LOG, p, out_lines);
 
+    final List<FossilTagName> names = new ArrayList<>(out_lines.size());
     final Iterator<String> iter = out_lines.iterator();
     while (iter.hasNext()) {
       final String name = iter.next();
-      if ("trunk".equals(name)) {
-        iter.remove();
+      if ("trunk".equals(name) == false) {
+        names.add(new FossilTagName(name));
       }
     }
 
-    return out_lines;
+    return names;
   }
 
   @Override public ByteBuffer getBlobForUUID(

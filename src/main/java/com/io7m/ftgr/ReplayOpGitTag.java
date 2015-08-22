@@ -33,14 +33,14 @@ public final class ReplayOpGitTag implements ReplayOperationType
   private final GitRepositorySpecificationType repos;
   private final long                           key;
   private final FossilCommit                   commit;
-  private final String                         tag_name;
+  private final FossilTagName                  tag_name;
 
   public ReplayOpGitTag(
     final GitExecutableType in_git,
     final GitRepositorySpecificationType in_repos,
     final FossilCommit in_commit,
     final long key_id,
-    final String in_tag_name)
+    final FossilTagName in_tag_name)
   {
     this.git = NullCheck.notNull(in_git);
     this.repos = NullCheck.notNull(in_repos);
@@ -66,7 +66,7 @@ public final class ReplayOpGitTag implements ReplayOperationType
         this.commit.getCommitTime(),
         ident,
         this.key,
-        this.tag_name);
+        this.tag_name.toString());
 
     } catch (final IOException e) {
       throw new ReplayException(e);

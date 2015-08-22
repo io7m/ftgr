@@ -25,12 +25,13 @@ import java.util.List;
 
 public interface FossilExecutableType
 {
-  OptionType<String> getArtifactForName(
+  OptionType<FossilCommitName> getArtifactForName(
     FossilRepositorySpecificationType repos,
     String name)
     throws IOException;
 
-  List<String> getNonPropagatingTags(FossilRepositorySpecificationType repos)
+  List<FossilTagName> getNonPropagatingTags(
+    FossilRepositorySpecificationType repos)
     throws IOException;
 
   ByteBuffer getBlobForUUID(

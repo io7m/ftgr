@@ -143,12 +143,14 @@ public final class FTGRMain
       }
     }
 
-    final List<String> tag_list = fossil.getNonPropagatingTags(fossil_repos);
-    for (final String tag : tag_list) {
-      final OptionType<String> tag_commit =
-        fossil.getArtifactForName(fossil_repos, tag);
+    final List<FossilTagName> tag_list =
+      fossil.getNonPropagatingTags(fossil_repos);
+    for (final FossilTagName tag : tag_list) {
+      final OptionType<FossilCommitName> tag_commit =
+        fossil.getArtifactForName(fossil_repos, tag.toString());
       if (tag_commit.isSome()) {
-        final Some<String> some_commit = (Some<String>) tag_commit;
+        final Some<FossilCommitName> some_commit =
+          (Some<FossilCommitName>) tag_commit;
         model_builder.addTag(tag, some_commit.get());
       }
     }

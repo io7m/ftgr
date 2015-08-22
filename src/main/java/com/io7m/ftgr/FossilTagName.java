@@ -13,25 +13,41 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 package com.io7m.ftgr;
 
-import org.apache.commons.collections4.BidiMap;
-import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
+import com.io7m.jnull.NullCheck;
 
-import java.util.Map;
-import java.util.Set;
-
-public interface FossilModelType
+public final class FossilTagName
 {
-  Set<String> getBranches();
+  private final String value;
 
-  Map<Integer, Long> getSigners();
+  public FossilTagName(final String in_value)
+  {
+    this.value = NullCheck.notNull(in_value);
+  }
 
-  DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink> getGraph();
+  @Override public boolean equals(final Object o)
+  {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || this.getClass() != o.getClass()) {
+      return false;
+    }
 
-  Map<Integer, FossilModelCommitNode> getNodes();
+    final FossilTagName that = (FossilTagName) o;
+    return this.value.equals(that.value);
 
-  FossilModelCommitNode getRootNode();
+  }
 
-  BidiMap<FossilTagName, FossilCommitName> getTags();
+  @Override public String toString()
+  {
+    return this.value;
+  }
+
+  @Override public int hashCode()
+  {
+    return this.value.hashCode();
+  }
 }

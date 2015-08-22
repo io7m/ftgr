@@ -31,6 +31,6 @@ public interface FossilModelBuilderType
     throws FossilGraphException;
 
   void addTag(
-    String tag,
-    String commit);
+    FossilTagName tag,
+    FossilCommitName commit);
 }

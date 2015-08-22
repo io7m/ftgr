@@ -40,12 +40,12 @@ public final class FossilModel implements FossilModelType
 
   private final DirectedAcyclicGraph<FossilModelCommitNode,
     FossilModelCommitLink>
-                                                    graph;
-  private final Map<Integer, FossilModelCommitNode> nodes;
-  private final Set<String>                         branches;
-  private final Map<Integer, Long>                  signers;
-  private final FossilModelCommitNode               root;
-  private final BidiMap<String, String>             tags;
+                                                         graph;
+  private final Map<Integer, FossilModelCommitNode>      nodes;
+  private final Set<String>                              branches;
+  private final Map<Integer, Long>                       signers;
+  private final FossilModelCommitNode                    root;
+  private final BidiMap<FossilTagName, FossilCommitName> tags;
 
   private FossilModel(
     final DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink>
@@ -54,7 +54,7 @@ public final class FossilModel implements FossilModelType
     final Set<String> in_branches,
     final Map<Integer, Long> in_signers,
     final FossilModelCommitNode in_root,
-    final BidiMap<String, String> in_tags)
+    final BidiMap<FossilTagName, FossilCommitName> in_tags)
   {
     this.graph = NullCheck.notNull(in_graph);
     this.nodes = NullCheck.notNull(in_nodes);
@@ -96,7 +96,7 @@ public final class FossilModel implements FossilModelType
     return this.root;
   }
 
-  @Override public BidiMap<String, String> getTags()
+  @Override public BidiMap<FossilTagName, FossilCommitName> getTags()
   {
     return this.tags;
   }
@@ -104,14 +104,14 @@ public final class FossilModel implements FossilModelType
   private static final class Builder implements FossilModelBuilderType
   {
     private final EdgeFactory<FossilModelCommitNode, FossilModelCommitLink>
-                                                      edges;
+                                                           edges;
     private final DirectedAcyclicGraph<FossilModelCommitNode,
       FossilModelCommitLink>
-                                                      graph;
-    private final Map<Integer, FossilModelCommitNode> nodes;
-    private final Set<String>                         branches;
-    private final Map<Integer, Long>                  signers;
-    private final BidiMap<String, String>             tags;
+                                                           graph;
+    private final Map<Integer, FossilModelCommitNode>      nodes;
+    private final Set<String>                              branches;
+    private final Map<Integer, Long>                       signers;
+    private final BidiMap<FossilTagName, FossilCommitName> tags;
 
     Builder()
     {
@@ -200,8 +200,8 @@ public final class FossilModel implements FossilModelType
     }
 
     @Override public void addTag(
-      final String tag,
-      final String commit)
+      final FossilTagName tag,
+      final FossilCommitName commit)
     {
       NullCheck.notNull(tag);
       NullCheck.notNull(commit);
