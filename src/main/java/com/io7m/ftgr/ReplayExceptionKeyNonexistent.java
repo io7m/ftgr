@@ -16,10 +16,12 @@
 
 package com.io7m.ftgr;
 
+import java.math.BigInteger;
+
 class ReplayExceptionKeyNonexistent extends ReplayException
 {
-  public ReplayExceptionKeyNonexistent(final long key_id)
+  public ReplayExceptionKeyNonexistent(final BigInteger key_id)
   {
-    super(String.format("No such key with id: 0x%016x", Long.valueOf(key_id)));
+    super(String.format("No such key with id: 0x%s", key_id.toString(16)));
   }
 }

@@ -24,6 +24,7 @@ import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -43,7 +44,7 @@ public final class FossilModel implements FossilModelType
                                                          graph;
   private final Map<Integer, FossilModelCommitNode>      nodes;
   private final Set<String>                              branches;
-  private final Map<Integer, Long>                       signers;
+  private final Map<Integer, BigInteger>                 signers;
   private final FossilModelCommitNode                    root;
   private final BidiMap<FossilTagName, FossilCommitName> tags;
 
@@ -52,7 +53,7 @@ public final class FossilModel implements FossilModelType
       in_graph,
     final Map<Integer, FossilModelCommitNode> in_nodes,
     final Set<String> in_branches,
-    final Map<Integer, Long> in_signers,
+    final Map<Integer, BigInteger> in_signers,
     final FossilModelCommitNode in_root,
     final BidiMap<FossilTagName, FossilCommitName> in_tags)
   {
@@ -74,7 +75,7 @@ public final class FossilModel implements FossilModelType
     return this.branches;
   }
 
-  @Override public Map<Integer, Long> getSigners()
+  @Override public Map<Integer, BigInteger> getSigners()
   {
     return this.signers;
   }
@@ -110,7 +111,7 @@ public final class FossilModel implements FossilModelType
                                                            graph;
     private final Map<Integer, FossilModelCommitNode>      nodes;
     private final Set<String>                              branches;
-    private final Map<Integer, Long>                       signers;
+    private final Map<Integer, BigInteger>                 signers;
     private final BidiMap<FossilTagName, FossilCommitName> tags;
 
     Builder()
@@ -145,9 +146,9 @@ public final class FossilModel implements FossilModelType
 
     @Override public void setSigningKey(
       final int commit,
-      final long key_id)
+      final BigInteger key_id)
     {
-      this.signers.put(Integer.valueOf(commit), Long.valueOf(key_id));
+      this.signers.put(Integer.valueOf(commit), key_id);
     }
 
     @Override public FossilModelType build()

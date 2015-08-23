@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 public final class ReplayOpCheckKey implements ReplayOperationType
 {
@@ -31,11 +32,11 @@ public final class ReplayOpCheckKey implements ReplayOperationType
   }
 
   private final GPGExecutableType gpg;
-  private final long              key_id;
+  private final BigInteger        key_id;
 
   public ReplayOpCheckKey(
     final GPGExecutableType in_gpg,
-    final long in_key_id)
+    final BigInteger in_key_id)
   {
     this.gpg = NullCheck.notNull(in_gpg);
     this.key_id = in_key_id;
@@ -46,7 +47,7 @@ public final class ReplayOpCheckKey implements ReplayOperationType
   {
     try {
       ReplayOpCheckKey.LOG.info(
-        "checking key: {}", Long.toHexString(this.key_id));
+        "checking key: {}", this.key_id.toString(16));
 
       if (dry_run == DryRun.EXECUTE) {
         if (this.gpg.hasSecretKey(this.key_id) == false) {

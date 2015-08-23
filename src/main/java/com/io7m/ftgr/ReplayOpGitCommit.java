@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Map;
 
 public final class ReplayOpGitCommit implements ReplayOperationType
@@ -34,20 +35,20 @@ public final class ReplayOpGitCommit implements ReplayOperationType
   private final GitExecutableType                git;
   private final GitRepositorySpecificationType   repos;
   private final FossilCommit                     commit;
-  private final long                             key;
+  private final BigInteger                       key;
   private final Map<GitCommitName, FossilCommit> commits;
 
   public ReplayOpGitCommit(
     final GitExecutableType in_git,
     final GitRepositorySpecificationType in_repos,
     final FossilCommit in_commit,
-    final long key_id,
+    final BigInteger key_id,
     final BidiMap<GitCommitName, FossilCommit> in_commits)
   {
     this.git = NullCheck.notNull(in_git);
     this.repos = NullCheck.notNull(in_repos);
     this.commit = NullCheck.notNull(in_commit);
-    this.key = key_id;
+    this.key = NullCheck.notNull(key_id);
     this.commits = NullCheck.notNull(in_commits);
   }
 

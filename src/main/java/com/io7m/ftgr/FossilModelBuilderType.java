@@ -15,6 +15,8 @@
  */
 package com.io7m.ftgr;
 
+import java.math.BigInteger;
+
 public interface FossilModelBuilderType
 {
   void addCommit(FossilCommit c)
@@ -22,7 +24,7 @@ public interface FossilModelBuilderType
 
   void setSigningKey(
     int commit,
-    long key_id);
+    BigInteger key_id);
 
   FossilModelType build()
     throws FossilGraphException;

@@ -19,7 +19,7 @@ those signatures will also match).
 + [Fossil](http://fossil-scm.org) (tested with `1.32 [715f88811a]`)
 + [libfaketime](https://github.com/wolfcw/libfaketime)
 + [GnuPG2](http://gnupg.org)
-+ A JRE supporting Java 7 or greater.
++ A JRE supporting Java 8 or greater.
 
 ## Building
 

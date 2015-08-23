@@ -21,6 +21,7 @@ import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -92,8 +93,8 @@ public final class ReplayPlanner implements ReplayPlannerType
      * keys.
      */
 
-    final Map<Integer, Long> signers = m.getSigners();
-    for (final Long k : new HashSet<>(signers.values())) {
+    final Map<Integer, BigInteger> signers = m.getSigners();
+    for (final BigInteger k : new HashSet<>(signers.values())) {
       p.add(new ReplayOpCheckKey(this.gpg, k));
     }
 
@@ -177,7 +178,7 @@ public final class ReplayPlanner implements ReplayPlannerType
 
   private void processCommit(
     final List<ReplayOperationType> plan,
-    final Map<Integer, Long> signers,
+    final Map<Integer, BigInteger> signers,
     final FossilModelCommitNode root_node,
     final DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink> g,
     final FossilModelCommitNode node,
@@ -213,10 +214,8 @@ public final class ReplayPlanner implements ReplayPlannerType
      * All commits from this point on must be signed.
      */
 
-    final Long k = NullCheck.notNull(
-      signers.get(
-        Integer.valueOf(
-          commit.getId())));
+    final BigInteger k = NullCheck.notNull(
+      signers.get(Integer.valueOf(commit.getId())));
 
     /**
      * If a commit has two parents, then it was the result of a merge

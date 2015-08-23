@@ -16,6 +16,7 @@
 package com.io7m.ftgr;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 /**
  * The type of operations that use a GPG executable.
@@ -23,6 +24,6 @@ import java.io.IOException;
 
 public interface GPGExecutableType
 {
-  boolean hasSecretKey(long id)
+  boolean hasSecretKey(BigInteger id)
     throws IOException;
 }

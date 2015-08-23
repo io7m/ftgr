@@ -17,6 +17,7 @@ package com.io7m.ftgr;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 public interface GitExecutableType
@@ -50,14 +51,14 @@ public interface GitExecutableType
     GitIdent user,
     String comment,
     String branch,
-    long key_id)
+    BigInteger key_id)
     throws IOException;
 
   void createTag(
     GitRepositorySpecificationType repos,
     Timestamp time,
     GitIdent user,
-    long key_id,
+    BigInteger key_id,
     String tag_name)
     throws IOException;
 
@@ -73,12 +74,12 @@ public interface GitExecutableType
     throws IOException;
 
   void merge(
-    final GitRepositorySpecificationType repos,
-    final Timestamp time,
-    final GitIdent user,
-    final String comment,
-    final String merge_to,
-    final String merge_from,
-    long key_id)
+    GitRepositorySpecificationType repos,
+    Timestamp time,
+    GitIdent user,
+    String comment,
+    String merge_to,
+    String merge_from,
+    BigInteger key_id)
     throws IOException;
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -10,13 +10,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="java-8-openjdk" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.io7m.jnull:io7m-jnull-core:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.io7m.jfunctional:io7m-jfunctional-core:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.io7m.jequality:io7m-jequality-core:1.0.1" level="project" />
-    <orderEntry type="library" name="Maven: com.io7m.junreachable:io7m-junreachable-core:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.io7m.jproperties:io7m-jproperties-core:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.io7m.jnull:io7m-jnull-core:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.io7m.jfunctional:io7m-jfunctional-core:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.io7m.jequality:io7m-jequality-core:1.0.2" level="project" />
+    <orderEntry type="library" name="Maven: com.io7m.junreachable:io7m-junreachable-core:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.io7m.jproperties:io7m-jproperties-core:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.jgrapht:jgrapht-core:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />

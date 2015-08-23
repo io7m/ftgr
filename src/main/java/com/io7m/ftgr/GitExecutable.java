@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -147,8 +148,8 @@ public final class GitExecutable implements GitExecutableType
   }
 
   @Override public void checkoutCommit(
-    File repos,
-    GitCommitName commit)
+    final File repos,
+    final GitCommitName commit)
     throws IOException
   {
     NullCheck.notNull(repos);
@@ -212,7 +213,7 @@ public final class GitExecutable implements GitExecutableType
     final GitIdent user,
     final String comment,
     final String branch,
-    final long key_id)
+    final BigInteger key_id)
     throws IOException
   {
     NullCheck.notNull(repos);
@@ -222,14 +223,14 @@ public final class GitExecutable implements GitExecutableType
     NullCheck.notNull(branch);
 
     return this.commit(
-      repos, time, user, comment, branch, Option.some(Long.valueOf(key_id)));
+      repos, time, user, comment, branch, Option.some(key_id));
   }
 
   @Override public void createTag(
     final GitRepositorySpecificationType repos,
     final Timestamp time,
     final GitIdent user,
-    final long key_id,
+    final BigInteger key_id,
     final String tag_name)
     throws IOException
   {
@@ -247,7 +248,7 @@ public final class GitExecutable implements GitExecutableType
     args.add("tag");
     args.add("-s");
     args.add("-u");
-    args.add(String.format("0x%s", Long.toHexString(key_id)));
+    args.add(String.format("0x%s", key_id.toString(16)));
     args.add("-m");
     args.add(tag_name);
     args.add(tag_name);
@@ -356,7 +357,7 @@ public final class GitExecutable implements GitExecutableType
      * Make the initial commit.
      */
 
-    final OptionType<Long> no_key = Option.none();
+    final OptionType<BigInteger> no_key = Option.none();
     return this.commit(repos, time, user, comment, branch, no_key);
   }
 
@@ -394,7 +395,7 @@ public final class GitExecutable implements GitExecutableType
     final String comment,
     final String merge_to,
     final String merge_from,
-    final long key_id)
+    final BigInteger key_id)
     throws IOException
   {
     NullCheck.notNull(repos);
@@ -438,7 +439,7 @@ public final class GitExecutable implements GitExecutableType
       args.add(this.exec.toString());
       args.add("merge");
       args.add("--no-ff");
-      args.add("--gpg-sign=" + Long.toHexString(key_id));
+      args.add("--gpg-sign=" + key_id.toString(16));
       args.add(String.format("-m Merge %s", merge_from));
       args.add(merge_from);
       GitExecutable.LOG.debug("execute {} in {}", args, workdir);
@@ -468,7 +469,7 @@ public final class GitExecutable implements GitExecutableType
     final GitIdent user,
     final String comment,
     final String branch,
-    final OptionType<Long> key)
+    final OptionType<BigInteger> key)
     throws IOException
   {
     final File workdir = repos.getDirectory().getCanonicalFile();
@@ -487,8 +488,8 @@ public final class GitExecutable implements GitExecutableType
         "--author=%s <%s>", user.getName(), user.getEmail()));
 
     if (key.isSome()) {
-      final Some<Long> some = (Some<Long>) key;
-      args.add("--gpg-sign=" + Long.toHexString(some.get()));
+      final Some<BigInteger> some = (Some<BigInteger>) key;
+      args.add("--gpg-sign=" + some.get().toString(16));
     } else {
       args.add("--no-gpg-sign");
     }

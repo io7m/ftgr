@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 public final class ReplayOpGitTag implements ReplayOperationType
 {
@@ -31,7 +32,7 @@ public final class ReplayOpGitTag implements ReplayOperationType
 
   private final GitExecutableType              git;
   private final GitRepositorySpecificationType repos;
-  private final long                           key;
+  private final BigInteger                     key;
   private final FossilCommit                   commit;
   private final FossilTagName                  tag_name;
 
@@ -39,13 +40,13 @@ public final class ReplayOpGitTag implements ReplayOperationType
     final GitExecutableType in_git,
     final GitRepositorySpecificationType in_repos,
     final FossilCommit in_commit,
-    final long key_id,
+    final BigInteger key_id,
     final FossilTagName in_tag_name)
   {
     this.git = NullCheck.notNull(in_git);
     this.repos = NullCheck.notNull(in_repos);
     this.commit = NullCheck.notNull(in_commit);
-    this.key = key_id;
+    this.key = NullCheck.notNull(key_id);
     this.tag_name = NullCheck.notNull(in_tag_name);
   }
 

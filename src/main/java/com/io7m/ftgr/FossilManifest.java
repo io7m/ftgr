@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
@@ -59,7 +60,7 @@ final class FossilManifest
    * @throws IOException On I/O errors
    */
 
-  public static OptionType<Long> getSignatureKey(
+  public static OptionType<BigInteger> getSignatureKey(
     final FossilCommitName uuid,
     final ByteBuffer b)
     throws IOException
@@ -82,7 +83,7 @@ final class FossilManifest
     return Option.none();
   }
 
-  private static OptionType<Long> tryLines(
+  private static OptionType<BigInteger> tryLines(
     final FossilCommitName uuid,
     final List<String> lines)
     throws IOException
@@ -99,7 +100,7 @@ final class FossilManifest
     }
   }
 
-  private static OptionType<Long> trySignatureLines(
+  private static OptionType<BigInteger> trySignatureLines(
     final FossilCommitName uuid,
     final List<String> lines)
     throws IOException
@@ -114,7 +115,7 @@ final class FossilManifest
     }
   }
 
-  private static OptionType<Long> trySignature(
+  private static OptionType<BigInteger> trySignature(
     final FossilCommitName uuid,
     final ByteArrayInputStream bai)
     throws IOException
@@ -131,7 +132,8 @@ final class FossilManifest
             NullCheck.notNull((PGPSignatureList) sig);
           if (sig_list.size() > 0) {
             final PGPSignature ssig = NullCheck.notNull(sig_list.get(0));
-            final Long id = Long.valueOf(ssig.getKeyID());
+            final BigInteger id =
+              new BigInteger(Long.toUnsignedString(ssig.getKeyID(), 16), 16);
             FossilManifest.LOG.debug(
               "blob {}: signed by 0x{}", uuid, String.format("%016x", id));
             return Option.some(id);

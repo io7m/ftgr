@@ -18,6 +18,7 @@ package com.io7m.ftgr;
 import org.apache.commons.collections4.BidiMap;
 import org.jgrapht.experimental.dag.DirectedAcyclicGraph;
 
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public interface FossilModelType
 {
   Set<String> getBranches();
 
-  Map<Integer, Long> getSigners();
+  Map<Integer, BigInteger> getSigners();
 
   DirectedAcyclicGraph<FossilModelCommitNode, FossilModelCommitLink> getGraph();
 

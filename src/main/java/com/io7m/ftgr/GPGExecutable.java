@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,10 @@ public final class GPGExecutable implements GPGExecutableType
     return new GPGExecutable(exec);
   }
 
-  @Override public boolean hasSecretKey(final long id)
+  @Override public boolean hasSecretKey(final BigInteger id)
     throws IOException
   {
-    final String key_id = String.format("0x%016x", Long.valueOf(id));
+    final String key_id = String.format("0x%s", id.toString(16));
 
     final List<String> args = new ArrayList<>(3);
     args.add(this.exec.toString());

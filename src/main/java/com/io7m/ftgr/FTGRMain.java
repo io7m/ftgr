@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.List;
@@ -130,31 +131,38 @@ public final class FTGRMain
       }
     }
 
-    final Map<Long, Long> key_map = config.getKeyMap();
+    final Map<BigInteger, BigInteger> key_map = config.getKeyMap();
+    for (final BigInteger k : key_map.keySet()) {
+      final BigInteger v = NullCheck.notNull(key_map.get(k));
+      FTGRMain.LOG.debug(
+        "mapping PGP key {} → {}",
+        k.toString(16),
+        v.toString(16));
+    }
 
     for (final Integer k : commits.keySet()) {
       final FossilCommit c = NullCheck.notNull(commits.get(k));
       final FossilCommitName uuid = c.getCommitBlob();
       final ByteBuffer data = fossil.getBlobForUUID(fossil_repos, uuid);
-      final OptionType<Long> key_id_opt =
+      final OptionType<BigInteger> key_id_opt =
         FossilManifest.getSignatureKey(uuid, data);
 
       if (key_id_opt.isSome()) {
-        final Some<Long> some = (Some<Long>) key_id_opt;
-        final Long signing_key = some.get();
-        final Long actual_key;
+        final Some<BigInteger> some = (Some<BigInteger>) key_id_opt;
+        final BigInteger signing_key = some.get();
+        final BigInteger actual_key;
 
         if (key_map.containsKey(signing_key)) {
           actual_key = NullCheck.notNull(key_map.get(signing_key));
           FTGRMain.LOG.debug(
             "mapped pgp key {} → {}",
-            Long.toHexString(signing_key),
-            Long.toHexString(actual_key));
+            signing_key.toString(16),
+            actual_key.toString(16));
         } else {
           actual_key = signing_key;
         }
 
-        LOG.debug("commit {} key {}", k, Long.toHexString(actual_key));
+        FTGRMain.LOG.debug("commit {} key {}", k, actual_key.toString(16));
         model_builder.setSigningKey(k.intValue(), actual_key);
       }
     }

@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.math.BigInteger;
 
 public final class ReplayOpGitMerge implements ReplayOperationType
 {
@@ -34,7 +35,7 @@ public final class ReplayOpGitMerge implements ReplayOperationType
   private final GitRepositorySpecificationType repos;
   private final String                         merge_to;
   private final String                         merge_from;
-  private final long                           key;
+  private final BigInteger                     key;
   private final FossilCommit                   commit;
 
   public ReplayOpGitMerge(
@@ -43,14 +44,14 @@ public final class ReplayOpGitMerge implements ReplayOperationType
     final FossilCommit in_commit,
     final String in_merge_to,
     final String in_merge_from,
-    final long key_id)
+    final BigInteger key_id)
   {
     this.exec = NullCheck.notNull(in_exec);
     this.repos = NullCheck.notNull(in_repos);
     this.commit = NullCheck.notNull(in_commit);
     this.merge_to = NullCheck.notNull(in_merge_to);
     this.merge_from = NullCheck.notNull(in_merge_from);
-    this.key = key_id;
+    this.key = NullCheck.notNull(key_id);
   }
 
   @Override public void execute(

@@ -20,6 +20,7 @@ import com.io7m.jproperties.JProperties;
 import com.io7m.jproperties.JPropertyException;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -31,7 +32,7 @@ final class FTGRConfiguration
   private final File                  gpg_exec;
   private final File                  faketime_exec;
   private final Map<String, GitIdent> name_map;
-  private final Map<Long, Long>       key_map;
+  private final Map<BigInteger, BigInteger>       key_map;
   private final File                  git_repos;
   private final File                  fossil_repos;
   private final DryRun                dry_run;
@@ -44,7 +45,7 @@ final class FTGRConfiguration
     final File in_gpg_exec,
     final File in_faketime_exec,
     final Map<String, GitIdent> in_name_map,
-    final Map<Long, Long> in_key_map,
+    final Map<BigInteger, BigInteger> in_key_map,
     final File in_git_repos,
     final File in_fossil_repos,
     final DryRun in_dry_run,
@@ -99,15 +100,15 @@ final class FTGRConfiguration
       }
     }
 
-    final Map<Long, Long> key_map = new HashMap<>(8);
+    final Map<BigInteger, BigInteger> key_map = new HashMap<>(8);
     for (final Object k : p.keySet()) {
       final String ks = NullCheck.notNull((String) k);
       if (ks.startsWith("com.io7m.ftgr.key_map.")) {
         final String name = NullCheck.notNull(
           ks.replace("com.io7m.ftgr.key_map.", ""));
         final String v = NullCheck.notNull(p.getProperty(ks));
-        final Long from = NullCheck.notNull(Long.valueOf(name, 16));
-        final Long to = NullCheck.notNull(Long.valueOf(v, 16));
+        final BigInteger from = new BigInteger(name, 16);
+        final BigInteger to = new BigInteger(v, 16);
         key_map.put(from, to);
       }
     }
@@ -142,7 +143,7 @@ final class FTGRConfiguration
       verify);
   }
 
-  public Map<Long, Long> getKeyMap()
+  public Map<BigInteger, BigInteger> getKeyMap()
   {
     return this.key_map;
   }
